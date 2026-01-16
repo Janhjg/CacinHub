@@ -1,70 +1,104 @@
-import random
-import time
-import os
+# =========================
+# LIBRERIAS
+# =========================
 
-# Inicio
+import random, time, os, json
 
-def mostrar_bienvenida():
+# =========================
+# USUARIOS
+# =========================
+
+class Usuario:
+    def __init__(self, nombre: str, password: str):
+        pass
+
+    def verificar_password(self, password: str) -> bool:
+        pass
+
+    def sumar_creditos(self, cantidad: int):
+        pass
+
+    def restar_creditos(self, cantidad: int) -> bool:
+        pass
+
+    def obtener_creditos(self) -> int:
+        pass
+
+
+class GestorUsuarios:
+    def __init__(self):
+        pass
+
+    def crear_usuario(self, nombre: str, password: str) -> bool:
+        pass
+
+    def iniciar_sesion(self, nombre: str, password: str) -> Usuario | None:
+        pass
+
+    def guardar_usuarios(self):
+        pass
+
+    def cargar_usuarios(self):
+        pass
+
+
+# =========================
+# TIENDA / GACHA DE CHISTES
+# =========================
+
+def tienda_chistes(usuario: Usuario):
     pass
 
-def limpiar_pantalla():
+def obtener_chiste_aleatorio():
     pass
 
-# BASE DE DATOS JSON
+
+# =========================
+# JUEGOS
+# =========================
+
+def juego_ruleta(usuario: Usuario):
+    pass
+
+def juego_tragaperras(usuario: Usuario):
+    pass
+
+def juego_carrera_caballos(usuario: Usuario):
+    pass
+
+def juego_blackjack(usuario: Usuario):
+    pass
+
+
+# =========================
+# PERSISTENCIA
+# =========================
+
+def guardar_datos():
+    pass
 
 def cargar_datos():
-    """Lee el archivo JSON y devuelve los datos."""
-    pass
-
-def guardar_datos(datos):
-    """Escribe los datos actuales en el archivo JSON."""
-    pass
-
-# GESTIÓN DE USUARIO
-
-def registrar_jugador():
-    pass
-
-def mostrar_perfil():
-    pass
-
-def actualizar_historial():
-    pass
-
-# Juegos y logica
-
-def validar_apuesta():
-    pass
-
-def jugar_tragamonedas():
-    pass
-
-def jugar_ruleta():
-    pass
-
-def jugar_dados():
-    pass
-
-def jugar_caballos():
-    pass
-
-# Menu Principal
-
-def mostrar_menu():
-    pass
-
-def menu_principal():
-    pass
-
-# SISTEMA DE PUNTOS Y CANJES
-
-def calcular_puntos_obtenidos():
-    pass
-
-def mostrar_catalogo_canje():
-    pass
-
-def ejecutar_canje():
     pass
 
 
+# =========================
+# MENÚS
+# =========================
+
+def menu_principal(usuario: Usuario):
+    pass
+
+def menu_login():
+    pass
+
+
+# =========================
+# MAIN
+# =========================
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()
