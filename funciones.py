@@ -71,7 +71,7 @@ def juego_blackjack(usuario: Usuario):
 
 
 # =========================
-# PERSISTENCIA
+# PERSISTENCIA JSON
 # =========================
 
 def guardar_datos():

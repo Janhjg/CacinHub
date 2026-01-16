@@ -49,6 +49,15 @@ CacinHub funciona mediante un bucle principal (while), lo que permite que el cas
 
 ## Flujo del programa
 
+# Inicio: 
+Carga de datos desde casino_db.json o creación de nuevo perfil.
+
+# Lógica de Juego: 
+Validación de fondos -> Ejecución de azar -> Cálculo de puntos.
+
+# Actualización: 
+El estado del jugador se guarda en el archivo JSON tras cada acción importante.
+
 # Bienvenida
 Se muestra el logo y el mensaje inicial de CacinHub.
 
@@ -75,4 +84,7 @@ Se ejecuta la lógica aleatoria y se actualiza el saldo y el historial.
 ### Objetivos del proyecto
 
 Estafar gente
+
 Simular un sistema real de apuestas
+
+Garantizar que las apuestas y el saldo nunca generen estados inconsistentes.
