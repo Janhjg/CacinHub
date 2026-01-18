@@ -1,90 +1,126 @@
-#### CacinHub
+## CacinHub API 
+API REST de casino desarrollada en Python
+## Descripción
+CacinHub es una API que simula un sistema de casino donde los usuarios pueden:
 
-CacinHub es un proyecto de casino en consola desarrollado en Python, creado como parte de un proyecto académico de nivel A2.
-El objetivo es simular un casino interactivo donde el usuario puede apostar, jugar y gestionar su saldo mediante diferentes juegos basados en azar.
+* Registrarse y autenticarse
+* Gestionar su saldo mediante transacciones
+* Apostar en diferentes juegos de azar
+* Consultar historial de partidas
+* Persistir datos entre sesiones
 
-El proyecto está diseñado para ser modular, claro, y con una buena gestión del flujo del juego y de los errores.
+El proyecto sigue un enfoque de desarrollo incremental, implementando funcionalidades de forma progresiva con testing continuo.
 
-### Características principales
+## Enfoque de Desarrollo
+1. Definición y Diseño
+Problema a resolver:
 
-Interfaz en consola limpia e interactiva
+Crear una API de casino funcional que permita a los usuarios gestionar su perfil, realizar apuestas y jugar diferentes juegos de azar de manera segura.
 
-Sistema de usuario con saldo e historial
+Funcionalidades principales:
 
-Juegos basados en números aleatorios
+* Sistema de registro y autenticación de usuarios
+* Gestión de saldo y transacciones
+* Points para múltiples juegos de azar
+* Persistencia de datos (JSON/Base de datos)
+* Historial de partidas por usuario
 
-Validación de apuestas y control de errores
+# 2. Diseño Funcional
+## Gestión de Usuarios
+Crear usuario
+* Qué hace: Registra un nuevo jugador en el sistema
+* Recibe: Nombre del usuario y saldo inicial
+* Devuelve: Datos del usuario creado con su ID
+#### Puede fallar si: El nombre ya existe o el saldo es menor a 10
 
-Flujo de juego continuo hasta que el usuario decida salir
+## Consultar usuario
 
-### Herramientas y librerías utilizadas
+* Qué hace: Obtiene la información de un jugador
+* Recibe: ID del usuario
+* Devuelve: Nombre, saldo actual y fecha de registro
+#### Puede fallar si: El usuario no existe
 
-Este proyecto utiliza únicamente librerías integradas de Python, por lo que no es necesario instalar dependencias externas.
+## Añadir saldo
 
-## Librerías principales
+* Qué hace: Incrementa el saldo de un usuario
+* Recibe: ID del usuario y cantidad a depositar
+* Devuelve: Nuevo saldo actualizado
+#### Puede fallar si: La cantidad es 0 o negativa
 
-# random
-# time
-# os
+## Gestión de Juegos
+Listar juegos
+* Qué hace: Muestra todos los juegos disponibles
+* Recibe: Nada
+* Devuelve: Lista con nombre, reglas y apuesta mínima de cada juego
+#### Puede fallar si: (no aplica)
 
-## Estructura de datos
+## Realizar apuesta
 
-Datos del jugador
-Componente 	    Descripción
-Saldo	        Cantidad de dinero actual del jugador
-Historial	    Lista que guarda si ganó o perdió en rondas anteriores
-Apuesta mínima	Valor constante para evitar apuestas inválidas
+* Qué hace: Ejecuta una partida en el juego seleccionado
+* Recibe: ID del usuario, cantidad apostada y opciones del juego
+* Devuelve: Resultado (ganó/perdió), ganancia y saldo actualizado
+* Puede fallar si: Saldo insuficiente, apuesta inválida o juego no existe
 
-Ejemplo:
+## Historial
+Ver historial de partidas
 
-jugador = {
-    "nombre": "",
-    "saldo": 100,
-    "historial": []
-}
+* Qué hace: Lista todas las partidas jugadas por un usuario
+* Recibe: ID del usuario (opcionalmente un límite de resultados)
+* Devuelve: Lista de partidas con fecha, juego, apuesta y resultado
+#### Puede fallar si: El usuario no existe
 
-### Lógica del flujo de juego
+# 3. Testing desde el Inicio
+Los tests garantizan el correcto funcionamiento de cada endpoint desde el inicio del desarrollo.
+## Cobertura de tests:
 
-CacinHub funciona mediante un bucle principal (while), lo que permite que el casino siga activo hasta que el jugador decida salir o se quede sin saldo.
+* Tests de endpoints (status codes, respuestas JSON)
+* Validación de datos de entrada
+* Lógica de cada juego (probabilidades, pagos)
+* Integridad de datos (saldo nunca negativo)
+* Persistencia correcta en base de datos
 
-## Flujo del programa
+## Ejecutar tests:
+* Pytest
 
-# Inicio: 
-Carga de datos desde casino_db.json o creación de nuevo perfil.
+# 4. Implementación Progresiva
+El proyecto evoluciona desde una estructura simple.
+### Fase 1 - API básica:
 
-# Lógica de Juego: 
-Validación de fondos -> Ejecución de azar -> Cálculo de puntos.
+* Endpoints fundamentales (crear usuario, obtener saldo)
+* Validación básica de datos
+* Almacenamiento en JSON
+* Un juego (o dos) simple implementado
 
-# Actualización: 
-El estado del jugador se guarda en el archivo JSON tras cada acción importante.
+### Fase 2 - Ampliación y validación:
 
-# Bienvenida
-Se muestra el logo y el mensaje inicial de CacinHub.
+* Más juegos disponibles
+* Validaciones completas en cada endpoint
 
-# Registro / Inicio
-El jugador introduce su nombre y su saldo inicial.
+## Librerías y herramientas estándar:
 
-# Menú principal
-El usuario puede:
+* random - Generación de números aleatorios para juegos
+* json - Persistencia de datos (fase inicial)
+* datetime - Timestamps de partidas (opcional)
 
-Elegir un juego
+# Juegos Disponibles
+### 1. Ruleta
+#### Opciones:
+* rojo o negro: pago x2
+* numero (0-36): pago x36
 
-Ver su saldo
+### 2. Dados
+#### Opciones:
 
-Salir del casino
+Suma específica (2-12): Con una probabilidad variable.
 
-## Validación de apuestas
-Se comprueba que el jugador:
+### 3. Tragamonedas
+#### Mecánica:
 
-Tenga saldo suficiente
-No apueste valores negativos o cero
-Resultado del juego
-Se ejecuta la lógica aleatoria y se actualiza el saldo y el historial.
+* Tres símbolos aleatorios
+* Combinaciones ganadoras con pagos de x2 a x100
 
-### Objetivos del proyecto
-
-Estafar gente
-
-Simular un sistema real de apuestas
-
-Garantizar que las apuestas y el saldo nunca generen estados inconsistentes.
+# Objetivos
+#### Este proyecto tiene como finalidad:
+* Diseñar e implementar una API funcional
+* Trabajar con persistencia de datos JSON - Base de datos
+* Desarrollar lógica de negocio (juegos de azar)
