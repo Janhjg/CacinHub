@@ -1,5 +1,5 @@
 # CacinHub API 
-API REST de casino desarrollada en Python
+API de casino desarrollada en Python
 ## Descripción
 CacinHub es una API que simula un sistema de casino donde los usuarios pueden:
 
@@ -29,7 +29,7 @@ Funcionalidades principales:
 ## Gestión de Usuarios
 Crear usuario
 * Qué hace: Registra un nuevo jugador en el sistema
-* Recibe: Nombre del usuario y saldo inicial
+* Recibe: Nombre del usuario, saldo inicial y contraseña
 * Devuelve: Datos del usuario creado con su ID
 #### Puede fallar si: El nombre ya existe o el saldo es menor a 10
 
@@ -124,3 +124,5 @@ Suma específica (2-12): Con una probabilidad variable.
 * Diseñar e implementar una API funcional
 * Trabajar con persistencia de datos JSON - Base de datos
 * Desarrollar lógica de negocio (juegos de azar)
+
+# 
