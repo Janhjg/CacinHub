@@ -21,7 +21,7 @@ Funcionalidades principales:
 
 * Sistema de registro y autenticación de usuarios
 * Gestión de saldo y transacciones
-* Points para múltiples juegos de azar
+* Endpoints para múltiples juegos de azar
 * Persistencia de datos (JSON/Base de datos)
 * Historial de partidas por usuario
 
@@ -34,6 +34,10 @@ Qué hace: Registra un nuevo jugador en el sistema
 Recibe: Nombre del usuario y contraseña
 Devuelve: Datos del usuario creado con su ID (único)
 Puede fallar si: El nombre ya existe o el saldo es menor a 10
+
+###### ( input : dime tu nombre y contrasena
+print : nombre - Takaka contrasena : 123 ID : ????
+(cantidad inicial minimo 100))
 
 ### Tests
 #### * Test 1: Verificar creación exitosa con datos válidos
@@ -60,7 +64,7 @@ Debe pasar si: El sistema rechaza saldos menores a 10
 
 ### Consultar usuario
 
-Qué hace: Obtiene la información de un jugador
+Qué hace: Obtiene la información de un jugador.
 Recibe: ID del usuario
 Devuelve: Nombre, saldo actual y fecha de registro
 Puede fallar si: El usuario no existe
@@ -139,6 +143,7 @@ Debe pasar si: Todos los juegos contienen los campos requeridos
 
 Qué hace: Ejecuta una partida en el juego seleccionado
 Recibe: ID del usuario, cantidad apostada y opciones del juego
+*** "resta de saldo" y actualiza **** 
 Devuelve: Resultado (ganó/perdió), ganancia y saldo actualizado
 Puede fallar si: Saldo insuficiente, apuesta inválida o juego no existe
 
@@ -180,12 +185,22 @@ Debe pasar si: El sistema rechaza correctamente el juego inválido
 
 
 ### Historial
-Ver historial de partidas
+Ver historial de partidas (guarde la cantidad de partidas total y de cada juego)
+"crear un usuario demo"
 
 Qué hace: Lista todas las partidas jugadas por un usuario
 Recibe: ID del usuario (opcionalmente un límite de resultados)
 Devuelve: Lista de partidas con fecha, juego, apuesta y resultado
 Puede fallar si: El usuario no existe
+
+#### Paquito
+juego: dados
+apuesta: 10
+jugador:6
+banca:2
+partida : win/lose
+ganacia: 20
+saldo: 30
 
 ### Tests
 #### * Test 1: Verificar obtención de historial completo
@@ -249,8 +264,8 @@ El proyecto evoluciona desde una estructura simple.
 * json - Persistencia de datos (fase inicial)
 * datetime - Timestamps de partidas (opcional)
 
-# Juegos Disponibles
-### 1. Ruleta
+# Juegos Disponibles (opciones)
+### 1. Ruleta 
 #### Opciones:
 * rojo o negro: pago x2
 * numero (0-36): pago x36
