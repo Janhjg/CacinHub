@@ -1,0 +1,17 @@
+{
+  "users": [ 
+     {      
+      "id": 1234,
+      "nombre": "Paquito",
+      "contrasena": "Nananina",
+      "saldo": 100.0,
+      "fecha_registro": "2025/01/2025",
+      "total_partidas": 15,
+      "partidas_por_juego": {
+        "ruleta": 5,
+        "dados": 8,
+        "tragamonedas": 2
+      }
+    }
+  ]
+}
