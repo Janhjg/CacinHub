@@ -1,0 +1,21 @@
+{
+  "partidas": [
+    {
+      "id": "partida_001",
+      "user_id": "1234",
+      "usuario": "Paquito",
+      "juego": "dados",
+      "apuesta": 10.0,
+      "fecha": "2026-01-21/10:00",
+      "detalles": {
+        "jugador": 6,
+        "banca": 2,
+        "suma_apostada": 6
+      },
+      "resultado": "win",
+      "ganancia": 20.0,
+      "saldo_anterior": 100.0,
+      "saldo_nuevo": 120.0
+        }
+    ]
+}
