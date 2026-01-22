@@ -1,15 +1,19 @@
 from funciones import *
 import pytest
-
-# ----------------------
-# TEST CREAR USUARIO
-# ----------------------
-
 def test_creacion_usuario():
     data = "./base_data./users.json"
     try:
-        with open(data, "r" encoding="utf-8" as f):
+        with open(data, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            if data["id"] != None and data["saldo"] >= 100:
+                return "Existe"
+            else:
+                return None
+    except ValueError:
+        return cargar_datos()
 
+
+print(test_creacion_usuario())
 def test_nombres_no_duplicados():
     pass
 
