@@ -50,3 +50,14 @@ def test_sin_juegos_no_verificados():
         juego["nombre"] in nombres_permitidos
         for juego in juegos
     ), "Se encontró un juego con un nombre no permitido"
+    
+
+# --------------
+# TEST HISTORIAL
+# --------------
+
+def usuario_con_partidas():
+    # Crea un usuario con partidas de prueba 
+    
+    usuario = crear_usuario("TestHistorial", "pass123", 100)
+    user_id = usuario["id"]
