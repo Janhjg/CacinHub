@@ -1,7 +1,7 @@
 import json
 
 # Ruta del archivo JSON
-games_path = "./base_data/games.json"
+games_path = "games.json"
 
 # Función para cargar juegos
 def cargar_juegos():

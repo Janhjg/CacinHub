@@ -14,8 +14,8 @@
       },
       "resultado": "win",
       "ganancia": 20.0,
-      "saldo_anterior": 100.0,
-      "saldo_nuevo": 120.0
+      "fichas_anteriores": 100.0,
+      "fichas_nuevas": 120.0
         }
     ]
 }
