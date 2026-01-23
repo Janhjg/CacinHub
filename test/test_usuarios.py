@@ -1,13 +1,13 @@
 from funciones import *
 import pytest
 def test_creacion_usuario():
-    data = "./users.json"
+    data = "users.json"
     usuario = crear_usuario("TestUser", "pass123", 100)
     user_id = usuario["id"]
     try:
         with open(data, "r", encoding="utf-8") as f:
             data = json.load(f)
-            if data["id"] != None and data["saldo"] >= 100:
+            if data["id"] != None and data["fichas"] >= 100:
                 return "Existe"
             else:
                 return None
@@ -15,7 +15,7 @@ def test_creacion_usuario():
         return cargar_datos()
 
 def test_nombres_no_duplicados():
-    data = "./users.json"
+    data = "users.json"
     for datos in data["users"]:
         if datos["nombre"].values == data["nombre"]:
             assert datos["nombre"].values in consultar_usuario()
@@ -42,14 +42,14 @@ def test_consultar_usuario():
         assert "id" in resultado
         assert "nombre" in resultado
         assert "contraseña" in resultado
-        assert "saldo" in resultado
+        assert "fichas" in resultado
         assert "fecha_registro" in resultado
         assert "total_partidas" in resultado
         assert "partidas_por_juego" in resultado
         
         # 4. Verificar que los datos son correctos
         assert resultado["nombre"] == "TestUser"
-        assert resultado["saldo"] == 100
+        assert resultado["fichas"] == 100
         
     def test_consultar_usuario_inexistente():
     

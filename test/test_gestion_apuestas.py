@@ -1,10 +1,10 @@
 from funciones import *
 import pytest
 import json
-data = "./users.json"
-historial = "./historial.json"
+data = "users.json"
+historial = "historial.json"
 def test_verificar_apuesta():
-    payload = data["id", "saldo"]
+    payload = data["id", "fichas"]
     juego = juegos["ruleta"]
         
     assert "resultado" in historial
@@ -14,10 +14,10 @@ def test_verificar_apuesta():
             
 
 
-def test_actualizacion_de_saldo():
+def test_actualizacion_de_fichas():
     pass
 
-def test_rechaza_saldo_insuficiente():
+def test_rechaza_fichas_insuficiente():
     pass
 
 def test_apuesta_minima():

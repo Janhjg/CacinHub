@@ -7,11 +7,11 @@ import pytest
 
 def test_creacion_usuario():
     # comprueba que se cree bien
-    data = "./base_data./users.json"
+    data = "users.json"
     try:
         with open(data, "r", encoding="utf-8") as f:
             data = json.load(f)
-            if data["id"] != None and data["ficha"] >= 100:
+            if data["id"] != None and data["fichas"] >= 100:
                 return "Existe"
             else:
                 return None
@@ -21,7 +21,7 @@ def test_creacion_usuario():
 def test_nombres_no_duplicados():
     pass
 
-def test_saldo_minimo():
+def test_fichas_minimas():
     pass
 
 # ----------------------
@@ -61,7 +61,7 @@ def test_consultar_usuario():
          consultar_usuario(user_id)
     
 # ----------------------------
-# Tests de saldo
+# Tests de fichas
 # ----------------------------
 
 # Las fichas iniciales del usuario debe ser exactamente 100 fichas
@@ -74,7 +74,7 @@ def test_fichas_iniciales_correcto():
         f"Las fichas iniciales deben ser {fichas_iniciales}"
     )
 
-# Comprueba que un depósito positivo incrementa el saldo
+# Comprueba que un depósito positivo incrementa de fichas
 def test_fichas_incrementado():
 
     usuarios = consultar_usuarios()
@@ -83,10 +83,10 @@ def test_fichas_incrementado():
     fichas_iniciales = usuario["fichas"]
     deposito = 50.0
 
-    saldo_final = fichas_inicial + deposito
+    fichas_finales = fichas_inicial + deposito
 
-    assert saldo_final > fichas_iniciales
-    assert saldo_final == fichas_iniciales + deposito
+    assert fichas_finales > fichas_iniciales
+    assert fichas_finales == fichas_iniciales + deposito
 
 # No se debe permitir un depósito de 0
 def test_rechazo_deposito_cero():
@@ -95,14 +95,14 @@ def test_rechazo_deposito_cero():
 
         assert deposito > 0, "No se debe permitir un depósito de 0"
 
-# No se permiten valores negativos ni en saldo ni en depósitos
+# No se permiten valores negativos ni en fichas ni en depósitos
 def test_no_numeros_negativos():
 
     usuarios = cargar_usuarios()
     usuario = usuarios[0]
 
-    fichas = usuario["Fichas"]
+    fichas = usuario["fichas"]
     deposito = -10.0
 
-    assert fichas > 0, "El saldo no puede ser negativo"
+    assert fichas > 0, "Las fichas no puede ser negativo"
     assert deposito > 0, "No se permiten depósitos negativos"

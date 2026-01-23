@@ -1,7 +1,7 @@
 {
   "sistema": {
     "nombre": "CacinHub",
-    "saldo_inicial": 100.0
+    "fichas_iniciales": 100.0
   },
   "seguridad": {
     "longitud_minima_contrasena": 6,
