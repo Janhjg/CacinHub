@@ -22,7 +22,6 @@ def test_nombres_no_duplicados():
             return "Ya existe"
         else:
             return crear_datos() 
-    pass
 
 # ----------------------
 # TEST CONSULTAR USUARIO
