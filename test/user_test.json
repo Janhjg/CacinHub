@@ -1,0 +1,15 @@
+{
+    "2264": {
+        "nombre": "Zack",
+        "contrasena": "Zeta123",
+        "fichas": 200,
+        "fecha_registro": "Mon Jan 26 05:32:40 2026",
+        "stats": {
+            "partidas_totales": 1,
+            "dados": 0,
+            "ruleta": 0,
+            "tragamonedas": 0,
+            "carreras": 1
+        }
+    }
+}

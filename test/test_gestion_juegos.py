@@ -40,10 +40,10 @@ def test_sin_juegos_no_verificados():
     juegos = cargar_juegos()
 
     nombres_permitidos = {
-        "Dados",
-        "Ruleta",
-        "Tragamonedas",
-        "Carrera de Caballos",
+        "dados",
+        "ruleta",
+        "tragamonedas",
+        "carreras_de_caballos",
     }
 
     assert all(

@@ -1,104 +1,50 @@
-# =========================
-# LIBRERIAS
-# =========================
+import random
+import time
 
-import random, time, os, json
+def crear_usuario(usuarios_db, nombre, contrasena):
+    while True:
+        nuevo_id = str(random.randint(1000, 9999))
+        if nuevo_id not in usuarios_db:
+            break
+    
+    usuario = {
+        "nombre": nombre,
+        "contrasena": contrasena,
+        "fichas": 100,
+        "fecha_registro": time.ctime(),
+        "stats": {
+            "partidas_totales": 0,
+            "dados": 0,
+            "ruleta": 0,
+            "tragamonedas": 0,
+            "carreras": 0
+        }
+    }
+    
+    usuarios_db[nuevo_id] = usuario
 
-# =========================
-# USUARIOS
-# =========================
+    print(f"\nUsuario creado con éxito. Tu ID de acceso es: {nuevo_id}")
+    return usuarios_db
 
-class Usuario:
-    def __init__(self, nombre: str, password: str):
-        pass
+def iniciar_sesion(usuarios_db, usuario_id, contrasena):
+    if usuario_id in usuarios_db:
+        if usuarios_db[usuario_id]["contrasena"] == contrasena:
+            print(f"\n¡Bienvenido de nuevo, {usuarios_db[usuario_id]['nombre']}!")
+            return True
+        else:
+            print("\nContraseña incorrecta.")
+    else:
+        print("\nEl ID de usuario no existe.")
+    return False
 
-    def verificar_password(self, password: str) -> bool:
-        pass
+def gestionar_apuesta(usuarios_db, usuario_id, monto, juego, gano, multiplicador=2):
+    user = usuarios_db[usuario_id]
+    
+    if gano:
+        user["fichas"] += (monto * multiplicador)
+    
+    user["stats"]["partidas_totales"] += 1
+    if juego in user["stats"]:
+        user["stats"][juego] += 1
 
-    def sumar_creditos(self, cantidad: int):
-        pass
-
-    def restar_creditos(self, cantidad: int) -> bool:
-        pass
-
-    def obtener_creditos(self) -> int:
-        pass
-
-
-class GestorUsuarios:
-    def __init__(self):
-        pass
-
-    def crear_usuario(self, nombre: str, password: str) -> bool:
-        pass
-
-    def iniciar_sesion(self, nombre: str, password: str) -> Usuario | None:
-        pass
-
-    def guardar_usuarios(self):
-        pass
-
-    def cargar_usuarios(self):
-        pass
-
-
-# =========================
-# TIENDA / GACHA DE CHISTES
-# =========================
-
-def tienda_chistes(usuario: Usuario):
-    pass
-
-def obtener_chiste_aleatorio():
-    pass
-
-
-# =========================
-# JUEGOS
-# =========================
-
-def juego_ruleta(usuario: Usuario):
-    pass
-
-def juego_tragaperras(usuario: Usuario):
-    pass
-
-def juego_carrera_caballos(usuario: Usuario):
-    pass
-
-def juego_blackjack(usuario: Usuario):
-    pass
-
-
-# =========================
-# PERSISTENCIA JSON
-# =========================
-
-def guardar_datos():
-    pass
-
-def cargar_datos():
-    pass
-
-
-# =========================
-# MENÚS
-# =========================
-
-def menu_principal(usuario: Usuario):
-    pass
-
-def menu_login():
-    pass
-
-
-# =========================
-# MAIN
-# =========================
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
+    return usuarios_db

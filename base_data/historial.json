@@ -2,7 +2,7 @@
   "partidas": [
     {
       "id": "partida_001",
-      "user_id": "1234",
+      "user_id": 1234,
       "usuario": "Paquito",
       "juego": "dados",
       "apuesta": 10.0,
