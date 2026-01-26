@@ -55,9 +55,72 @@ def test_sin_juegos_no_verificados():
 # --------------
 # TEST HISTORIAL
 # --------------
+def test_historial():
+    def usuario_con_partidas():
+        # Crea un usuario con partidas de prueba 
+        
+        usuario = crear_usuario("TestHistorial", "pass123", 100)
+        user_id = usuario["id"]
+        
+    def test_historial_completo():
+        # 1. Crear un usuario y hacer varias partidas
+        usuario = crear_usuario("JugadorTest", "pass123", 500)
+        user_id = usuario["id"]
+        
+        realizar_apuesta(user_id, "dados", 10)
+        realizar_apuesta(user_id, "ruleta", 20)
+        realizar_apuesta(user_id, "tragamonedas", 15)
+        
+        # 2. Obtener el historial
+        historial = obtener_historial(user_id)
+        
+        # 3. Verificar que están todas las partidas
+        assert len(historial) == 3
+        
+        # 4. Verificar que cada partida tiene todos los campos
+        for partida in historial:
+            assert "fecha" in partida
+            assert "juego" in partida
+            assert "apuesta" in partida
+            assert "resultado" in partida
+            assert "ganancia" in partida
+            assert "saldo" in partida
 
-def usuario_con_partidas():
-    # Crea un usuario con partidas de prueba 
-    
-    usuario = crear_usuario("TestHistorial", "pass123", 100)
-    user_id = usuario["id"]
+
+
+    def test_limite_resultados():
+        
+        # 1. Crear usuario con 5 partidas
+        usuario = crear_usuario("JugadorTest2", "pass123", 500)
+        user_id = usuario["id"]
+        
+        for i in range(5):
+            realizar_apuesta(user_id, "dados", 10)
+        
+        # 2. Obtener historial con límite de 3
+        historial = obtener_historial(user_id, limite=3)
+        
+        # 3. Verificar que respeta el límite
+        assert len(historial) <= 3
+
+
+    def test_error_usuario_inexistente():
+        # 1. Intentar obtener historial de un ID que no existe
+         user_id_falso = "id_inexistente_999"
+        
+        # 2. Verificar que lanza error
+         with pytest.raises(Exception):
+             obtener_historial(user_id_falso)
+        
+
+    def test_usuario_sin_partidas():
+        # 1. Crear usuario nuevo sin partidas
+         usuario = crear_usuario("UsuarioNuevo", "pass123", 100)
+         user_id = usuario["id"]
+        
+        # 2. Obtener historial
+         historial = obtener_historial(user_id)
+        
+        # 3. Verificar que es un array vacío
+         assert historial == []
+         assert len(historial) == 0
