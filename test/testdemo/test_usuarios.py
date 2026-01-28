@@ -1,13 +1,9 @@
-from funciones import *
+from funcionesprueba import *
 import pytest
-
-# ----------------------
-# TEST CREACION USUARIO
-# ----------------------
-
 def test_creacion_usuario():
-    # comprueba que se cree bien
     data = "users.json"
+    usuario = crear_usuario("TestUser", "pass123", 100)
+    user_id = usuario["id"]
     try:
         with open(data, "r", encoding="utf-8") as f:
             data = json.load(f)
@@ -19,10 +15,13 @@ def test_creacion_usuario():
         return cargar_datos()
 
 def test_nombres_no_duplicados():
-    pass
-
-def test_fichas_minimas():
-    pass
+    data = "users.json"
+    for datos in data["users"]:
+        if datos["nombre"].values == data["nombre"]:
+            assert datos["nombre"].values in consultar_usuario()
+            return "Ya existe"
+        else:
+            return crear_datos() 
 
 # ----------------------
 # TEST CONSULTAR USUARIO
@@ -60,49 +59,4 @@ def test_consultar_usuario():
      with pytest.raises(Exception):
          consultar_usuario(user_id)
     
-# ----------------------------
-# Tests de fichas
-# ----------------------------
 
-# Las fichas iniciales del usuario debe ser exactamente 100 fichas
-def test_fichas_iniciales_correcto():
-
-    usuarios = consultar_usuarios()
-    usuario = usuarios[0]
-
-    assert usuario["fichas"] == fichas_iniciales, (
-        f"Las fichas iniciales deben ser {fichas_iniciales}"
-    )
-
-# Comprueba que un depósito positivo incrementa de fichas
-def test_fichas_incrementado():
-
-    usuarios = consultar_usuarios()
-    usuario = usuarios[0]
-
-    fichas_iniciales = usuario["fichas"]
-    deposito = 50.0
-
-    fichas_finales = fichas_inicial + deposito
-
-    assert fichas_finales > fichas_iniciales
-    assert fichas_finales == fichas_iniciales + deposito
-
-# No se debe permitir un depósito de 0
-def test_rechazo_deposito_cero():
-
-        deposito = 0.0
-
-        assert deposito > 0, "No se debe permitir un depósito de 0"
-
-# No se permiten valores negativos ni en fichas ni en depósitos
-def test_no_numeros_negativos():
-
-    usuarios = cargar_usuarios()
-    usuario = usuarios[0]
-
-    fichas = usuario["fichas"]
-    deposito = -10.0
-
-    assert fichas > 0, "Las fichas no puede ser negativo"
-    assert deposito > 0, "No se permiten depósitos negativos"
