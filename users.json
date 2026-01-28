@@ -1,0 +1,13 @@
+{
+    "users": [
+        {
+            "id": "9e686b1c-33fa-403c-a56e-728adf097122",
+            "nombre": "Paquito",
+            "contraseña": "123",
+            "fichas": 100,
+            "fecha_registro": "2026-01-26T11:09:03.364826",
+            "total_partidas": 0,
+            "partidas_por_juego": {}
+        }
+    ]
+}
