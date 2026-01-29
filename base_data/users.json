@@ -1,28 +1,15 @@
 {
-    "6150": {
-        "nombre": "Angelico",
-        "contrasena": "123",
-        "fichas": 112,
-        "fecha_registro": "Mon Jan 26 05:04:08 2026",
-        "stats": {
-            "partidas_totales": 3,
-            "dados": 1,
-            "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 2
-        }
-    },
-    "9710": {
-        "nombre": "pepin",
-        "contrasena": "trilili",
-        "fichas": 32,
-        "fecha_registro": "Mon Jan 26 05:34:40 2026",
-        "stats": {
-            "partidas_totales": 6,
-            "dados": 4,
-            "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 2
-        }
+  "1234": {
+    "nombre": "TestUser",
+    "contrasena": "test123",
+    "fichas": 100,
+    "fecha_registro": "Wed Jan 29 10:00:00 2026",
+    "stats": {
+      "partidas_totales": 6,
+      "dados": 3,
+      "ruleta": 1,
+      "tragamonedas": 1,
+      "carreras": 1
     }
+  }
 }

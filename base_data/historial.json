@@ -1,21 +1,61 @@
 {
-  "partidas": [
-    {
-      "id": "partida_001",
-      "user_id": 1234,
-      "usuario": "Paquito",
-      "juego": "dados",
-      "apuesta": 10.0,
-      "fecha": "2026-01-21/10:00",
-      "detalles": {
-        "jugador": 6,
-        "banca": 2,
-        "suma_apostada": 6
+  "historial_usuarios": {
+    "1234": [
+      {
+        "usuario": "TestUser",
+        "juego": "ruleta",
+        "apuesta": 15,
+        "fecha": "2026-01-29 03:15:11",
+        "detalles": "Apostó al rojo",
+        "resultado": "perdió",
+        "ganancia": -15,
+        "fichas_anteriores": 120,
+        "fichas_nuevas": 105
       },
-      "resultado": "win",
-      "ganancia": 20.0,
-      "fichas_anteriores": 100.0,
-      "fichas_nuevas": 120.0
-        }
+      {
+        "usuario": "TestUser",
+        "juego": "tragamonedas",
+        "apuesta": 5,
+        "fecha": "2026-01-29 03:15:11",
+        "detalles": "3 cerezas",
+        "resultado": "ganó",
+        "ganancia": 25,
+        "fichas_anteriores": 105,
+        "fichas_nuevas": 130
+      },
+      {
+        "usuario": "TestUser",
+        "juego": "carreras",
+        "apuesta": 20,
+        "fecha": "2026-01-29 03:15:11",
+        "detalles": "Caballo #3",
+        "resultado": "perdió",
+        "ganancia": -20,
+        "fichas_anteriores": 130,
+        "fichas_nuevas": 110
+      },
+      {
+        "usuario": "TestUser",
+        "juego": "dados",
+        "apuesta": 10,
+        "fecha": "2026-01-29 03:15:11",
+        "detalles": "Partida extra 1",
+        "resultado": "ganó",
+        "ganancia": 10,
+        "fichas_anteriores": 110,
+        "fichas_nuevas": 120
+      },
+      {
+        "usuario": "TestUser",
+        "juego": "dados",
+        "apuesta": 10,
+        "fecha": "2026-01-29 03:15:11",
+        "detalles": "Partida extra 2",
+        "resultado": "ganó",
+        "ganancia": 10,
+        "fichas_anteriores": 110,
+        "fichas_nuevas": 120
+      }
     ]
+  }
 }
