@@ -1,6 +1,6 @@
 from Funciones.funciones import *
 import pytest
-
+import json
 
 # ----------------------
 # TEST CREACION USUARIO

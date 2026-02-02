@@ -10,7 +10,7 @@ def test_verificar_apuesta():
     assert "resultado" in historial
     assert historial["resultado"] in ["gano", "perdio"]
     assert "ganancia" in data
-    assert isinstance(data["ganancia"], (int, float))
+    assert isinstance(data["ganancia"], (int))
             
 
 
