@@ -1,8 +1,7 @@
 import pytest
 import os
 import json
-from funciones import crear_usuario, gestionar_apuesta
-
+from Funciones.funciones import *
 DB_TEST = "user_test.json"
 
 def test_1_creacion_y_archivo():

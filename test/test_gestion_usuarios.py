@@ -1,4 +1,4 @@
-from funciones import *
+from Funciones.funciones import *
 import pytest
 
 

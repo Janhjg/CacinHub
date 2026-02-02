@@ -1,4 +1,5 @@
 import json
+from Funciones.funciones import *
 
 # Ruta del archivo JSON
 games_path = "games.json"

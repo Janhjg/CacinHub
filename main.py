@@ -1,6 +1,6 @@
 import json
 import os
-from funciones import crear_usuario, iniciar_sesion, gestionar_apuesta
+from Funciones.funciones import crear_usuario, iniciar_sesion, gestionar_apuesta
 from juegos.dados import jugar_dados
 from juegos.carreras import jugar_carreras
 
