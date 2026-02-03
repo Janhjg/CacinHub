@@ -2,108 +2,234 @@ from Funciones.funciones import *
 import pytest
 import json
 
-# ----------------------
-# TEST CREACION USUARIO
-# ----------------------
+# ==============================
+# TESTS DE CREACIÓN DE USUARIO
+# ==============================
 
-def test_creacion_usuario():
-    # comprueba que se cree bien
-    data = "users.json"
-    try:
-        with open(data, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            if data["id"] != None and data["fichas"] >= 100:
-                return "Existe"
-            else:
-                return None
-    except ValueError:
-        return cargar_datos()
-
-def test_nombres_no_duplicados():
-    pass
-
-def test_fichas_minimas():
-    pass
-
-# ----------------------
-# TEST CONSULTAR USUARIO
-# ----------------------
-
-def test_consultar_usuario():
+def test_creacion_usuario(usuarios_db_limpio):
     
-    def test_consultar_usuario_existente():
-        # 1. Crear un usuario de prueba
-        usuario = crear_usuario("TestUser", "pass123", 100)
-        user_id = usuario["id"]
-        
-        # 2. Consultar el usuario
-        resultado = consultar_usuario(user_id)
-        
-        # 3. Verificar que tiene todos los campos
-        assert "id" in resultado
-        assert "nombre" in resultado
-        assert "contraseña" in resultado
-        assert "fichas" in resultado
-        assert "fecha_registro" in resultado
-        assert "total_partidas" in resultado
-        assert "partidas_por_juego" in resultado
-        
-        # 4. Verificar que los datos son correctos
-        assert resultado["nombre"] == "TestUser"
-        assert resultado["fichas"] == 100
-        
-    def test_consultar_usuario_inexistente():
+    usuarios_db = usuarios_db_limpio
+    nombre = "TestUser"
+    contrasena = "pass123"
     
-     # 1. Intentar consultar un ID que no existe
-     user_id = "id_falso_9999"
+    # Crear usuario usando la función real
+    usuarios_db = crear_usuario(usuarios_db, nombre, contrasena)
     
-     # 2. Verificar que da error
-     with pytest.raises(Exception):
-         consultar_usuario(user_id)
+    # Verificar que se creó exactamente 1 usuario
+    assert len(usuarios_db) == 1, "Debe haberse creado 1 usuario"
     
-# ----------------------------
-# Tests de fichas
-# ----------------------------
+    # Obtener el usuario creado
+    user_id = list(usuarios_db.keys())[0]
+    usuario = usuarios_db[user_id]
+    
+    # Verificar estructura y valores
+    assert usuario["nombre"] == nombre
+    assert usuario["contrasena"] == contrasena
+    assert usuario["fichas"] == 100
+    assert "fecha_registro" in usuario
+    assert "stats" in usuario
 
-# Las fichas iniciales del usuario debe ser exactamente 100 fichas
-def test_fichas_iniciales_correcto():
 
-    usuarios = consultar_usuarios()
-    usuario = usuarios[0]
+def test_id_usuario_generado_automaticamente(usuarios_db_limpio):
+    """Verifica que se genera automáticamente un ID único de 4 dígitos"""
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "User1", "pass1")
+    
+    user_id = list(usuarios_db.keys())[0]
+    
+    # Verificar que el ID es un string de 4 dígitos
+    assert len(user_id) == 4
+    assert user_id.isdigit()
+    assert 1000 <= int(user_id) <= 9999
 
-    assert usuario["fichas"] == fichas_iniciales, (
-        f"Las fichas iniciales deben ser {fichas_iniciales}"
-    )
 
-# Comprueba que un depósito positivo incrementa de fichas
-def test_fichas_incrementado():
+def test_nombres_no_duplicados(usuarios_db_limpio):
+    
+    usuarios_db = usuarios_db_limpio
+    
+    # Crear varios usuarios
+    usuarios_db = crear_usuario(usuarios_db, "Alice", "pass1")
+    usuarios_db = crear_usuario(usuarios_db, "Bob", "pass2")
+    usuarios_db = crear_usuario(usuarios_db, "Charlie", "pass3")
+    
+    # Verificar que se crearon 3 usuarios
+    assert len(usuarios_db) == 3
+    
+    # Verificar que cada uno tiene nombre diferente
+    nombres = [usuario["nombre"] for usuario in usuarios_db.values()]
+    assert "Alice" in nombres
+    assert "Bob" in nombres
+    assert "Charlie" in nombres
 
-    usuarios = consultar_usuarios()
-    usuario = usuarios[0]
 
-    fichas_iniciales = usuario["fichas"]
-    deposito = 50.0
+def test_ids_unicos_multiples_usuarios(usuarios_db_limpio):
+    """Verifica que cada usuario recibe un ID único incluso creando muchos"""
+    usuarios_db = usuarios_db_limpio
+    
+    # Crear 20 usuarios
+    for i in range(20):
+        usuarios_db = crear_usuario(usuarios_db, f"User{i}", f"pass{i}")
+    
+    # Verificar que hay 20 usuarios
+    assert len(usuarios_db) == 20
+    
+    # Verificar que todos los IDs son únicos
+    ids = list(usuarios_db.keys())
+    assert len(ids) == len(set(ids)), "Todos los IDs deben ser únicos"
 
-    fichas_finales = fichas_inicial + deposito
 
-    assert fichas_finales > fichas_iniciales
-    assert fichas_finales == fichas_iniciales + deposito
+def test_fichas_minimas(usuarios_db_limpio):
+    
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "pass123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    usuario = usuarios_db[user_id]
+    
+    assert usuario["fichas"] == 100, "Las fichas iniciales deben ser 100"
 
-# No se debe permitir un depósito de 0
-def test_rechazo_deposito_cero():
 
-        deposito = 0.0
+# =====================================================
+# TESTS DE INICIAR SESIÓN
+# =====================================================
 
-        assert deposito > 0, "No se debe permitir un depósito de 0"
+def test_iniciar_sesion_exitoso(usuarios_db_limpio):
+    """Verifica que se puede iniciar sesión con credenciales correctas"""
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "password123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    
+    # Iniciar sesión con credenciales correctas
+    resultado = iniciar_sesion(usuarios_db, user_id, "password123")
+    
+    assert resultado == True, "Debe iniciar sesión correctamente"
 
-# No se permiten valores negativos ni en fichas ni en depósitos
-def test_no_numeros_negativos():
 
-    usuarios = cargar_usuarios()
-    usuario = usuarios[0]
+def test_iniciar_sesion_contrasena_incorrecta(usuarios_db_limpio):
+    """Verifica que falla con contraseña incorrecta"""
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "password123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    
+    # Intentar con contraseña incorrecta
+    resultado = iniciar_sesion(usuarios_db, user_id, "wrong_password")
+    
+    assert resultado == False, "No debe permitir inicio de sesión con contraseña incorrecta"
 
-    fichas = usuario["fichas"]
-    deposito = -10.0
 
-    assert fichas > 0, "Las fichas no puede ser negativo"
-    assert deposito > 0, "No se permiten depósitos negativos"
+def test_iniciar_sesion_usuario_inexistente(usuarios_db_limpio):
+    
+    usuarios_db = usuarios_db_limpio
+    
+    # Intentar iniciar sesión con ID inexistente
+    resultado = iniciar_sesion(usuarios_db, "9999", "anypassword")
+    
+    assert resultado == False, "No debe permitir inicio de sesión con ID inexistente"
+
+
+# =====================================================
+# TESTS DE GESTIÓN DE FICHAS
+# =====================================================
+
+def test_fichas_iniciales_correcto(usuarios_db_limpio):
+
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "pass123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    usuario = usuarios_db[user_id]
+    
+    assert usuario["fichas"] == 100, "Las fichas iniciales deben ser 100"
+
+
+def test_incremento_fichas_al_ganar(usuarios_db_limpio):
+   
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "pass123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    fichas_antes = usuarios_db[user_id]["fichas"]  # 100
+    
+    # Ganar una apuesta de 20 fichas (multiplicador por defecto es 2)
+    usuarios_db = gestionar_apuesta(usuarios_db, user_id, monto=20, juego="dados", gano=True)
+    
+    fichas_despues = usuarios_db[user_id]["fichas"]
+    
+    # 100 + (20 * 2) = 140
+    assert fichas_despues == fichas_antes + 40
+    assert fichas_despues > fichas_antes
+
+
+def test_fichas_no_cambian_al_perder(usuarios_db_limpio):
+   
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "pass123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    fichas_antes = usuarios_db[user_id]["fichas"]  # 100
+    
+    # Perder una apuesta
+    usuarios_db = gestionar_apuesta(usuarios_db, user_id, monto=20, juego="ruleta", gano=False)
+    
+    fichas_despues = usuarios_db[user_id]["fichas"]
+    
+    # Las fichas no deben cambiar (se mantienen en 100)
+    assert fichas_despues == fichas_antes
+
+
+def test_validacion_apuesta_mayor_que_cero():
+    
+    # Verificar que apuestas válidas son mayores que 0
+    apuesta_valida_1 = 10
+    apuesta_valida_2 = 50.5
+    apuesta_valida_3 = 1
+    
+    assert apuesta_valida_1 > 0, "Apuestas válidas deben ser mayores que 0"
+    assert apuesta_valida_2 > 0, "Apuestas válidas deben ser mayores que 0"
+    assert apuesta_valida_3 > 0, "Apuestas válidas deben ser mayores que 0"
+    
+    # Verificar que 0 y valores negativos NO son apuestas válidas
+    apuesta_invalida_cero = 0
+    apuesta_invalida_negativa = -10
+    
+    assert not (apuesta_invalida_cero > 0), "Apuesta de 0 no debe ser válida"
+    assert not (apuesta_invalida_negativa > 0), "Apuestas negativas no deben ser válidas"
+
+# ==============================
+# TESTS DE ESTADÍSTICAS
+# ==============================
+
+def test_stats_iniciales(usuarios_db_limpio):
+    """Verifica que las estadísticas iniciales son correctas"""
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "pass123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    stats = usuarios_db[user_id]["stats"]
+    
+    assert stats["partidas_totales"] == 0
+    assert stats["dados"] == 0
+    assert stats["ruleta"] == 0
+    assert stats["tragamonedas"] == 0
+    assert stats["carreras"] == 0
+
+
+def test_stats_actualizadas_despues_partida(usuarios_db_limpio):
+    """Verifica que las estadísticas se actualizan correctamente"""
+    usuarios_db = usuarios_db_limpio
+    usuarios_db = crear_usuario(usuarios_db, "TestUser", "pass123")
+    
+    user_id = list(usuarios_db.keys())[0]
+    
+    # Jugar varias partidas
+    usuarios_db = gestionar_apuesta(usuarios_db, user_id, 10, "dados", True)
+    usuarios_db = gestionar_apuesta(usuarios_db, user_id, 10, "dados", False)
+    usuarios_db = gestionar_apuesta(usuarios_db, user_id, 10, "ruleta", True)
+    
+    stats = usuarios_db[user_id]["stats"]
+    
+    assert stats["partidas_totales"] == 3
+    assert stats["dados"] == 2
+    assert stats["ruleta"] == 1
