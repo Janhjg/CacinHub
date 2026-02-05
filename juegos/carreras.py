@@ -1,65 +1,61 @@
 import random
-import time
+from juegos.base_juegos import *
 
-def jugar_carreras(usuarios, uid, gestionar_apuesta, guardar_datos):
-    print("\n" + "="*30)
-    print("--- BIENVENIDO AL HIPÓDROMO ---")
-    print("="*30)
-    
-    caballos = {
-        "1": {"nombre": "Secretariat", "prob": 40, "mult": 2},
-        "2": {"nombre": "Tamamo Cross", "prob": 30, "mult": 3},
-        "3": {"nombre": "Epona", "prob": 20, "mult": 4},
-        "4": {"nombre": "Tormenta China", "prob": 10, "mult": 5}
-    }
+class JuegoCarreras(Juego):
+    def __init__(self, usuarios, uid, gestionar_apuesta, guardar_datos):
+        super().__init__("carreras", usuarios, uid, gestionar_apuesta, guardar_datos)
+        
+        self.caballos = {
+            "1": {"nombre": "Secretariat", "prob": 40, "mult": 2},
+            "2": {"nombre": "Tamamo Cross", "prob": 30, "mult": 3},
+            "3": {"nombre": "Epona", "prob": 20, "mult": 4},
+            "4": {"nombre": "Tormenta China", "prob": 10, "mult": 5}
+        }
 
-    for k, v in caballos.items():
-        print(f"{k}. {v['nombre']} | Premio: x{v['mult']} (Éxito: {v['prob']}%)")
+    def mostrar_menu_caballos(self):
+        print("\n" + "="*35)
+        print("--- BIENVENIDO AL HIPODROMO ---")
+        print("="*35)
+        for k, v in self.caballos.items():
+            print(f"{k}. {v['nombre']} | x{v['mult']} (Exito: {v['prob']}%)")
+        print("-" * 35)
 
-    eleccion = input("\nSelecciona tu caballo (1-4): ")
-    if eleccion not in caballos:
-        print("Selección no válida.")
-        return
-
-    try:
-        apuesta = int(input(f"¿Cuánto apuestas a {caballos[eleccion]['nombre']}?: "))
-        if apuesta <= 0 or apuesta > usuarios[uid]["fichas"]:
-            print("Saldo insuficiente o cantidad inválida.")
+    def jugar(self):
+        self.mostrar_menu_caballos()
+        
+        eleccion = input("\nSelecciona tu caballo (1-4): ")
+        if eleccion not in self.caballos:
+            print("Seleccion no valida. Volviendo al menu.")
             return
 
-        """Retiro preventivo de fichas"""
-        usuarios[uid]["fichas"] -= apuesta
-        print(f"\n¡Se abren los partidores! Has apostado {apuesta} fichas.")
+        apuesta = self.solicitar_apuesta()
         
-        """Animación simple"""
-        for i in range(3):
-            print("... Galopando ...")
-            time.sleep(0.5)
+        if apuesta:
+            caballo_elegido = self.caballos[eleccion]["nombre"]
+            
+            self.animacion_espera(f"Se abren los partidores! Galopando con {caballo_elegido}...")
 
-        """Lógica de probabilidad acumulada"""
-        resultado_azar = random.randint(1, 100)
-        if resultado_azar <= 40: ganador = "1"
-        elif resultado_azar <= 70: ganador = "2"
-        elif resultado_azar <= 90: ganador = "3"
-        else: ganador = "4"
+            azar = random.randint(1, 100)
+            if azar <= 40: 
+                ganador_id = "1"
+            elif azar <= 70: 
+                ganador_id = "2"
+            elif azar <= 90: 
+                ganador_id = "3"
+            else: 
+                ganador_id = "4"
 
-        print(f"\n¡EL GANADOR ES {caballos[ganador]['nombre'].upper()}!")
+            ganador_nombre = self.caballos[ganador_id]["nombre"]
+            print(f"RESULTADO: El ganador es {ganador_nombre.upper()}!")
 
-        gano = (eleccion == ganador)
-        
-        """Procesa el resultado con la función"""
-        usuarios = gestionar_apuesta(
-            usuarios, uid, apuesta, "carreras", gano, caballos[eleccion]["mult"]
-        )
-        
-        if gano:
-            premio = apuesta * caballos[eleccion]["mult"]
-            print(f"¡Felicidades! Ganaste {premio} fichas.")
-        else:
-            print("Tu caballo no llegó primero. ¡Más suerte la próxima!")
+            gano = (eleccion == ganador_id)
+            multiplicador = self.caballos[eleccion]["mult"]
+            
+            detalle_partida = f"Aposto por {caballo_elegido}. Ganador: {ganador_nombre}"
 
-        guardar_datos(usuarios)
-        print(f"Saldo actual: {usuarios[uid]['fichas']} fichas.")
+            self.procesar_resultado(apuesta, gano, multiplicador, detalle_partida)
 
-    except ValueError:
-        print("Error: Introduce un número entero para la apuesta.")
+            if gano:
+                print(f"Felicidades! Has ganado {apuesta * multiplicador} fichas.")
+            else:
+                print("Tu caballo no logro el primer puesto. Suerte para la proxima.")

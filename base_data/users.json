@@ -1,25 +1,13 @@
 {
-    "1234": {
-        "nombre": "TestUser",
-        "contrasena": "test123",
-        "fichas": 100,
-        "fecha_registro": "Wed Jan 29 10:00:00 2026",
+    "6055": {
+        "nombre": "Rompe-Aire",
+        "contrasena": "tecno",
+        "fecha_nacimiento": "19/10/1999",
+        "fichas": 343,
+        "fecha_registro": "05/02/2026 11:47:05",
         "stats": {
-            "partidas_totales": 6,
-            "dados": 3,
-            "ruleta": 1,
-            "tragamonedas": 1,
-            "carreras": 1
-        }
-    },
-    "9771": {
-        "nombre": "Janh",
-        "contrasena": "123456",
-        "fichas": 550,
-        "fecha_registro": "Thu Jan 29 03:25:58 2026",
-        "stats": {
-            "partidas_totales": 2,
-            "dados": 1,
+            "partidas_totales": 11,
+            "dados": 10,
             "ruleta": 0,
             "tragamonedas": 0,
             "carreras": 1

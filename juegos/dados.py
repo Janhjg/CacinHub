@@ -1,50 +1,39 @@
 import random
-import time
+from juegos.base_juegos import *
 
-def jugar_dados(usuarios, uid, gestionar_apuesta, guardar_datos):
-    print("\n" + "="*25)
-    print("--- DUELO DE DADOS CONTRA LA BANCA ---")
-    print("="*25)
-    
-    fichas_actuales = usuarios[uid]["fichas"]
-    
-    try:
-        apuesta = int(input(f"Saldo: {fichas_actuales} | ¿Cuánto apuestas?: "))
+class JuegoDados(Juego):
+    def __init__(self, usuarios, uid, gestionar_apuesta, guardar_datos):
+        super().__init__("dados", usuarios, uid, gestionar_apuesta, guardar_datos)
+
+    def jugar(self):
+        print("\n" + "="*35)
+        print("--- DUELO DE DADOS CONTRA LA BANCA ---")
+        print("="*35)
+
+        apuesta = self.solicitar_apuesta()
         
-        if apuesta <= 0 or apuesta > fichas_actuales:
-            print("Cantidad no válida o saldo insuficiente.")
-            return
+        if apuesta:
+            self.animacion_espera("Lanzando los dados sobre el tapete...")
 
-        """Retiro preventivo de fichas"""
-        usuarios[uid]["fichas"] -= apuesta
-        
-        print("\nLanzando dados...")
-        time.sleep(0.5)
-        
-        tiro_jugador = random.randint(1, 6)
-        tiro_banca = random.randint(1, 6)
-        
-        print(f"➤ Tu dado:  [{tiro_jugador}]")
-        print(f"➤ Banca:    [{tiro_banca}]")
-        print("-" * 25)
+            tiro_jugador = random.randint(1, 6)
+            tiro_banca = random.randint(1, 6)
 
-        if tiro_jugador > tiro_banca:
-            print(f"¡GANASTE!")
-            usuarios = gestionar_apuesta(usuarios, uid, apuesta, "dados", True, 2)
-            
-        elif tiro_banca > tiro_jugador:
-            print("LA BANCA GANA.")
-            usuarios = gestionar_apuesta(usuarios, uid, apuesta, "dados", False)
-            
-        else:
-            print("¡EMPATE! Se te devuelven las fichas.")
-            """Aquí estaba el fallo, ahora corregido:"""
-            usuarios[uid]["fichas"] += apuesta
-            usuarios[uid]["stats"]["partidas_totales"] += 1
-            usuarios[uid]["stats"]["dados"] += 1
+            print(f"-> Tu dado:  [{tiro_jugador}]")
+            print(f"-> Banca:    [{tiro_banca}]")
+            print("-" * 35)
 
-        guardar_datos(usuarios)
-        print(f"Saldo final: {usuarios[uid]['fichas']} fichas.")
+            detalle_duelo = f"Jugador: {tiro_jugador} vs Banca: {tiro_banca}"
 
-    except ValueError:
-        print("Error: Introduce un número entero para la apuesta.")
+            if tiro_jugador > tiro_banca:
+                print("HAS GANADO! La banca paga el doble.")
+                self.procesar_resultado(apuesta, True, 2, detalle_duelo)
+                
+            elif tiro_banca > tiro_jugador:
+                print("LA BANCA GANA. Has perdido tu apuesta.")
+                self.procesar_resultado(apuesta, False, 0, detalle_duelo)
+                
+            else:
+                print("EMPATE! Se te devuelven tus fichas.")
+                self.procesar_resultado(apuesta, True, 1, "Empate tecnico")
+
+            print(f"\nSaldo actual: {self.usuarios[self.uid]['fichas']} fichas.")
