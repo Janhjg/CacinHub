@@ -35,13 +35,12 @@ def registrar_partida(user_id, nombre, juego, apuesta, detalles, resultado, gana
         "detalles": detalles,
         "resultado": resultado,
         "ganancia": ganancia,
-        "saldo_antes": antes,
-        "saldo_despues": despues
+        "fichas_antes": antes,
+        "fichas_despues": despues
     }
 
     historial[user_id]["partidas"].insert(0, nueva_entrada)
-    
-    historial[user_id]["partidas"] = historial[user_id]["partidas"][:50]
+    historial[user_id]["partidas"] = historial[user_id]["partidas"][:5]
 
     guardar_json(HISTORIAL_PATH, historial)
 
@@ -56,12 +55,12 @@ def obtener_historial_usuario(user_id):
     
     stats = {
         "partidas_totales": len(partidas),
-        "fichas_actuales": partidas[0]["saldo_despues"] if partidas else 0
+        "fichas_actuales": partidas[0]["fichas_despues"] if partidas else 0
     }
 
     return {
         "usuario": historial[user_id]["usuario"],
         "fichas_actuales": stats["fichas_actuales"],
         "stats": stats,
-        "ultimas_partidas": partidas[:5] 
+        "ultimas_partidas": partidas 
     }

@@ -3,11 +3,11 @@
         "nombre": "Rompe-Aire",
         "contrasena": "tecno",
         "fecha_nacimiento": "19/10/1999",
-        "fichas": 343,
+        "fichas": 351,
         "fecha_registro": "05/02/2026 11:47:05",
         "stats": {
-            "partidas_totales": 11,
-            "dados": 10,
+            "partidas_totales": 18,
+            "dados": 17,
             "ruleta": 0,
             "tragamonedas": 0,
             "carreras": 1
