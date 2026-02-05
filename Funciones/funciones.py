@@ -1,182 +1,98 @@
 import random
-import time
 import json
 from datetime import datetime
 
+class Usuario:
+    def __init__(self, nombre, contrasena, fecha_nacimiento, id_usuario=None, fichas=100, fecha_reg=None, stats=None):
+        self.nombre = nombre
+        self.contrasena = contrasena
+        self.fecha_nacimiento = fecha_nacimiento
+        self.id = id_usuario if id_usuario else str(random.randint(1000, 9999))
+        self._fichas = fichas
+        self.fecha_registro = fecha_reg if fecha_reg else datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        self.stats = stats if stats else {
+            "partidas_totales": 0, "dados": 0, "ruleta": 0, "tragamonedas": 0, "carreras": 0
+        }
+
+    @property
+    def fichas(self):
+        return self._fichas
+
+    @fichas.setter
+    def fichas(self, cantidad):
+        if cantidad < 0:
+            self._fichas = 0
+        else:
+            self._fichas = cantidad
+
+    def to_dict(self):
+        return {
+            "nombre": self.nombre,
+            "contrasena": self.contrasena,
+            "fecha_nacimiento": self.fecha_nacimiento,
+            "fichas": self.fichas,
+            "fecha_registro": self.fecha_registro,
+            "stats": self.stats
+        }
+
+def calcular_edad(fecha_str):
+    try:
+        nacimiento = datetime.strptime(fecha_str, "%d/%m/%Y")
+        hoy = datetime.now()
+        edad = hoy.year - nacimiento.year - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day))
+        return edad
+    except ValueError:
+        return None
+
 def crear_usuario(usuarios_db, nombre, contrasena):
+    print("\n--- REGISTRO DE EDAD ---")
+    fecha_nac = input("Introduce tu fecha de nacimiento (DD/MM/YYYY): ")
+    
+    edad = calcular_edad(fecha_nac)
+    
+    if edad is None:
+        print("Error: Formato de fecha no válido.")
+        return usuarios_db
+        
+    if edad < 18:
+        print(f"Acceso denegado: Tienes {edad} años. Solo mayores de 18.")
+        return usuarios_db
+
     while True:
-        nuevo_id = str(random.randint(1000, 9999))
-        if nuevo_id not in usuarios_db:
+        nuevo_user = Usuario(nombre, contrasena, fecha_nac)
+        if nuevo_user.id not in usuarios_db:
             break
     
-    usuario = {
-        "nombre": nombre,
-        "contrasena": contrasena,
-        "fichas": 100,
-        "fecha_registro": time.ctime(),
-        "stats": {
-            "partidas_totales": 0,
-            "dados": 0,
-            "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 0
-        }
-    }
-    
-    usuarios_db[nuevo_id] = usuario
-
-    print(f"\nUsuario creado con éxito. Tu ID de acceso es: {nuevo_id}")
+    usuarios_db[nuevo_user.id] = nuevo_user.to_dict()
+    print(f"\nUsuario creado: {nuevo_user.nombre}")
+    print(f"ID: {nuevo_user.id} | Edad: {edad} años")
+    print(f"Registro: {nuevo_user.fecha_registro}")
     return usuarios_db
 
 def iniciar_sesion(usuarios_db, usuario_id, contrasena):
     if usuario_id in usuarios_db:
         if usuarios_db[usuario_id]["contrasena"] == contrasena:
-            print(f"\n¡Bienvenido de nuevo, {usuarios_db[usuario_id]['nombre']}!")
+            print(f"\n¡Hola de nuevo, {usuarios_db[usuario_id]['nombre']}!")
             return True
-        else:
-            print("\nContraseña incorrecta.")
+        print("\nContraseña incorrecta.")
     else:
-        print("\nEl ID de usuario no existe.")
+        print("\nID no encontrado.")
     return False
 
 def gestionar_apuesta(usuarios_db, usuario_id, monto, juego, gano, multiplicador=2):
-    user = usuarios_db[usuario_id]
+    datos = usuarios_db[usuario_id]
+    
+    user = Usuario(
+        datos["nombre"], datos["contrasena"], datos["fecha_nacimiento"],
+        usuario_id, datos["fichas"], datos["fecha_registro"], datos["stats"]
+    )
     
     if gano:
-        user["fichas"] += (monto * multiplicador)
+        user.fichas += (monto * multiplicador)
     
-    user["stats"]["partidas_totales"] += 1
-    if juego in user["stats"]:
-        user["stats"][juego] += 1
+    user.stats["partidas_totales"] += 1
+    if juego in user.stats:
+        user.stats[juego] += 1
 
+    usuarios_db[usuario_id] = user.to_dict()
     return usuarios_db
-
-# ----------------
-# Historial
-# ---------------
-
-def cargar_usuarios():
-    # Carga users.json
-    with open("base_data/users.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-
-def guardar_usuarios(datos):
-    # Guarda users.json
-    with open("base_data/users.json", "w", encoding="utf-8") as f:
-        json.dump(datos, f, indent=2, ensure_ascii=False)
-
-def obtener_usuario(user_id):
-    # Obtiene un usuario por su ID
-    usuarios_db = cargar_usuarios()
-    user_key = str(user_id)
-    
-    if user_key in usuarios_db:
-        # Devolver usuario con su ID incluido
-        usuario = usuarios_db[user_key].copy()
-        usuario["id"] = user_id
-        return usuario
-    return None
-
-def actualizar_fichas(user_id, nuevas_fichas):
-    # Actualiza las fichas del usuario
-    usuarios_db = cargar_usuarios()
-    user_key = str(user_id)
-    
-    if user_key in usuarios_db:
-        usuarios_db[user_key]["fichas"] = nuevas_fichas
-        guardar_usuarios(usuarios_db)
-        return True
-    return False
-
-def actualizar_stats(user_id, juego):
-    # Actualiza los stats del usuario (partidas totales y por juego)
-    usuarios_db = cargar_usuarios()
-    user_key = str(user_id)
-    
-    if user_key in usuarios_db:
-        # Incrementar partidas totales
-        usuarios_db[user_key]["stats"]["partidas_totales"] += 1
-        
-        # Incrementar contador del juego
-        if juego in usuarios_db[user_key]["stats"]:
-            usuarios_db[user_key]["stats"][juego] += 1
-        
-        guardar_usuarios(usuarios_db)
-        return True
-    return False
-
-# --- 
-# Ahora Historial.json
-# ---
-
-def cargar_historial():
-    with open("base_data/historial.json", "r", encoding="utf-8") as f:
-        return json.load(f)
-
-def guardar_historial(datos):
-    """Guarda historial.json"""
-    with open("base_data/historial.json", "w", encoding="utf-8") as f:
-        json.dump(datos, f, indent=2, ensure_ascii=False)
-
-def registrar_partida(user_id,usuario,juego,apuesta,detalles,resultado,ganancia,fichas_anteriores,fichas_nuevas):
-    
-    historial = cargar_historial()
-    
-    # Ver si existe ya
-    if "historial_usuarios" not in historial:
-        historial["historial_usuarios"] = {}
-    
-    user_key = str(user_id)
-    
-    # Iniciar historial del usuario
-    if user_key not in historial["historial_usuarios"]:
-        historial["historial_usuarios"][user_key] = []
-    
-    # Crear registro de partida
-    partida = {
-        "usuario": usuario,
-        "juego": juego,
-        "apuesta": apuesta,
-        "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "detalles": detalles,
-        "resultado": resultado,
-        "ganancia": ganancia,
-        "fichas_anteriores": fichas_anteriores,
-        "fichas_nuevas": fichas_nuevas
-    }
-    
-    # Añadir partida
-    historial["historial_usuarios"][user_key].append(partida)
-    
-    # MANTENER SOLO LAS ÚLTIMAS 5 PARTIDAS
-    if len(historial["historial_usuarios"][user_key]) > 5:
-        historial["historial_usuarios"][user_key] = historial["historial_usuarios"][user_key][-5:]
-    
-    # Guardar
-    guardar_historial(historial)
-    
-    # ACTUALIZAR STATS EN users.json
-    actualizar_stats(user_id, juego)
-    
-    print(f" Partida registrada para {usuario}")
-    
-    return partida
-
-def obtener_historial_usuario(user_id):
-    
-    # datos del usuario
-    usuario = obtener_usuario(user_id)
-    if not usuario:
-        return None
-    
-    # historial
-    historial = cargar_historial()
-    user_key = str(user_id)
-    partidas = historial.get("historial_usuarios", {}).get(user_key, [])
-    
-    return {
-        "usuario": usuario["nombre"],
-        "fichas_actuales": usuario["fichas"],
-        "stats": usuario["stats"],
-        "ultimas_partidas": partidas
-    }

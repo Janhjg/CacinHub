@@ -1,61 +1,137 @@
 {
-  "historial_usuarios": {
-    "1234": [
-      {
-        "usuario": "TestUser",
-        "juego": "ruleta",
-        "apuesta": 15,
-        "fecha": "2026-01-29 03:15:11",
-        "detalles": "Apostó al rojo",
-        "resultado": "perdió",
-        "ganancia": -15,
-        "fichas_anteriores": 120,
-        "fichas_nuevas": 105
-      },
-      {
-        "usuario": "TestUser",
-        "juego": "tragamonedas",
-        "apuesta": 5,
-        "fecha": "2026-01-29 03:15:11",
-        "detalles": "3 cerezas",
-        "resultado": "ganó",
-        "ganancia": 25,
-        "fichas_anteriores": 105,
-        "fichas_nuevas": 130
-      },
-      {
-        "usuario": "TestUser",
-        "juego": "carreras",
-        "apuesta": 20,
-        "fecha": "2026-01-29 03:15:11",
-        "detalles": "Caballo #3",
-        "resultado": "perdió",
-        "ganancia": -20,
-        "fichas_anteriores": 130,
-        "fichas_nuevas": 110
-      },
-      {
-        "usuario": "TestUser",
-        "juego": "dados",
-        "apuesta": 10,
-        "fecha": "2026-01-29 03:15:11",
-        "detalles": "Partida extra 1",
-        "resultado": "ganó",
-        "ganancia": 10,
-        "fichas_anteriores": 110,
-        "fichas_nuevas": 120
-      },
-      {
-        "usuario": "TestUser",
-        "juego": "dados",
-        "apuesta": 10,
-        "fecha": "2026-01-29 03:15:11",
-        "detalles": "Partida extra 2",
-        "resultado": "ganó",
-        "ganancia": 10,
-        "fichas_anteriores": 110,
-        "fichas_nuevas": 120
-      }
-    ]
-  }
+    "6055": {
+        "usuario": "Rompe-Aire",
+        "partidas": [
+            {
+                "fecha": "05/02/2026 11:52:05",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 12,
+                "saldo_antes": 331,
+                "saldo_despues": 343
+            },
+            {
+                "fecha": "05/02/2026 11:51:27",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Empate tecnico",
+                "resultado": "empate",
+                "ganancia": 0,
+                "saldo_antes": 319,
+                "saldo_despues": 331
+            },
+            {
+                "fecha": "05/02/2026 11:51:23",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 3 vs Banca: 4",
+                "resultado": "perdio",
+                "ganancia": 12,
+                "saldo_antes": 319,
+                "saldo_despues": 319
+            },
+            {
+                "fecha": "05/02/2026 11:51:19",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 4 vs Banca: 2",
+                "resultado": "gano",
+                "ganancia": 24,
+                "saldo_antes": 295,
+                "saldo_despues": 319
+            },
+            {
+                "fecha": "05/02/2026 11:51:15",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 2 vs Banca: 6",
+                "resultado": "perdio",
+                "ganancia": 12,
+                "saldo_antes": 295,
+                "saldo_despues": 295
+            },
+            {
+                "fecha": "05/02/2026 11:51:10",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 5 vs Banca: 1",
+                "resultado": "gano",
+                "ganancia": 24,
+                "saldo_antes": 271,
+                "saldo_despues": 295
+            },
+            {
+                "fecha": "05/02/2026 11:51:06",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 4 vs Banca: 6",
+                "resultado": "perdio",
+                "ganancia": 12,
+                "saldo_antes": 271,
+                "saldo_despues": 271
+            },
+            {
+                "fecha": "05/02/2026 11:51:02",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 1 vs Banca: 3",
+                "resultado": "perdio",
+                "ganancia": 12,
+                "saldo_antes": 271,
+                "saldo_despues": 271
+            },
+            {
+                "fecha": "05/02/2026 11:49:00",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 123,
+                "saldo_antes": 148,
+                "saldo_despues": 271
+            },
+            {
+                "fecha": "05/02/2026 11:48:34",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 5 vs Banca: 1",
+                "resultado": "gano",
+                "ganancia": 24,
+                "saldo_antes": 124,
+                "saldo_despues": 148
+            },
+            {
+                "fecha": "05/02/2026 11:48:28",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 4 vs Banca: 6",
+                "resultado": "perdio",
+                "ganancia": 12,
+                "saldo_antes": 124,
+                "saldo_despues": 124
+            },
+            {
+                "fecha": "05/02/2026 11:48:23",
+                "juego": "dados",
+                "apuesta": 12,
+                "detalles": "Jugador: 6 vs Banca: 2",
+                "resultado": "gano",
+                "ganancia": 24,
+                "saldo_antes": 100,
+                "saldo_despues": 124
+            },
+            {
+                "fecha": "05/02/2026 11:48:07",
+                "juego": "carreras",
+                "apuesta": 12,
+                "detalles": "Aposto por Tamamo Cross. Ganador: Epona",
+                "resultado": "perdio",
+                "ganancia": 12,
+                "saldo_antes": 100,
+                "saldo_despues": 100
+            }
+        ]
+    }
 }
