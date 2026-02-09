@@ -25,5 +25,19 @@
             "tragamonedas": 0,
             "carreras": 1
         }
+    },
+    "1245": {
+        "nombre": "jacobo",
+        "contrasena": "1234",
+        "fecha_nacimiento": "1/2/2000",
+        "fichas": 380,
+        "fecha_registro": "06/02/2026 11:47:41",
+        "stats": {
+            "partidas_totales": 2,
+            "dados": 2,
+            "ruleta": 0,
+            "tragamonedas": 0,
+            "carreras": 0
+        }
     }
 }

@@ -53,5 +53,40 @@
                 "fichas_despues": 348
             }
         ]
+    },
+    "1245": {
+        "usuario": "jacobo",
+        "partidas": [
+            {
+                "fecha": "06/02/2026 11:51:31",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 190,
+                "fichas_antes": 190,
+                "fichas_despues": 380
+            },
+            {
+                "fecha": "06/02/2026 11:50:40",
+                "juego": "dados",
+                "apuesta": 90,
+                "detalles": "Empate tecnico",
+                "resultado": "empate",
+                "ganancia": 0,
+                "fichas_antes": 100,
+                "fichas_despues": 190
+            },
+            {
+                "fecha": "06/02/2026 11:50:00",
+                "juego": "dados",
+                "apuesta": 15,
+                "detalles": "Jugador: 1 vs Banca: 5",
+                "resultado": "perdio",
+                "ganancia": 15,
+                "fichas_antes": 100,
+                "fichas_despues": 100
+            }
+        ]
     }
 }
