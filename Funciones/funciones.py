@@ -79,20 +79,16 @@ def iniciar_sesion(usuarios_db, usuario_id, contrasena):
         print("\nID no encontrado.")
     return False
 
-def gestionar_apuesta(usuarios_db, usuario_id, monto, juego, gano, multiplicador=2):
-    datos = usuarios_db[usuario_id]
+def gestionar_apuesta(usuarios, uid, monto_apuesta, juego, gano, multiplicador):
+    uid = str(uid)
     
-    user = Usuario(
-        datos["nombre"], datos["contrasena"], datos["fecha_nacimiento"],
-        usuario_id, datos["fichas"], datos["fecha_registro"], datos["stats"]
-    )
-    
-    if gano:
-        user.fichas += (monto * multiplicador)
-    
-    user.stats["partidas_totales"] += 1
-    if juego in user.stats:
-        user.stats[juego] += 1
+    usuarios[uid]["fichas"] -= monto_apuesta
 
-    usuarios_db[usuario_id] = user.to_dict()
-    return usuarios_db
+    if gano and multiplicador > 1:
+        premio = monto_apuesta * multiplicador
+        usuarios[uid]["fichas"] += premio
+    
+    elif gano and multiplicador == 1:
+        usuarios[uid]["fichas"] += monto_apuesta
+          
+    return usuarios

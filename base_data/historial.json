@@ -3,54 +3,54 @@
         "usuario": "Rompe-Aire",
         "partidas": [
             {
-                "fecha": "05/02/2026 13:07:17",
+                "fecha": "09/02/2026 10:08:45",
                 "juego": "dados",
                 "apuesta": 1,
                 "detalles": "Empate tecnico",
                 "resultado": "empate",
                 "ganancia": 0,
-                "fichas_antes": 350,
-                "fichas_despues": 351
+                "fichas_antes": 352,
+                "fichas_despues": 352
             },
             {
-                "fecha": "05/02/2026 13:07:14",
+                "fecha": "09/02/2026 10:08:41",
                 "juego": "dados",
                 "apuesta": 1,
-                "detalles": "Jugador: 2 vs Banca: 3",
+                "detalles": "Jugador: 2 vs Banca: 5",
                 "resultado": "perdio",
                 "ganancia": 1,
-                "fichas_antes": 350,
-                "fichas_despues": 350
+                "fichas_antes": 353,
+                "fichas_despues": 352
             },
             {
-                "fecha": "05/02/2026 13:07:10",
+                "fecha": "09/02/2026 10:08:37",
                 "juego": "dados",
                 "apuesta": 1,
-                "detalles": "Jugador: 1 vs Banca: 2",
+                "detalles": "Jugador: 3 vs Banca: 4",
                 "resultado": "perdio",
                 "ganancia": 1,
-                "fichas_antes": 350,
-                "fichas_despues": 350
+                "fichas_antes": 354,
+                "fichas_despues": 353
             },
             {
-                "fecha": "05/02/2026 13:07:07",
+                "fecha": "09/02/2026 10:08:34",
                 "juego": "dados",
                 "apuesta": 1,
-                "detalles": "Jugador: 5 vs Banca: 1",
+                "detalles": "Jugador: 6 vs Banca: 1",
                 "resultado": "gano",
-                "ganancia": 2,
-                "fichas_antes": 348,
-                "fichas_despues": 350
+                "ganancia": 1,
+                "fichas_antes": 353,
+                "fichas_despues": 354
             },
             {
-                "fecha": "05/02/2026 13:07:03",
+                "fecha": "09/02/2026 10:08:24",
                 "juego": "dados",
                 "apuesta": 1,
-                "detalles": "Empate tecnico",
-                "resultado": "empate",
-                "ganancia": 0,
-                "fichas_antes": 347,
-                "fichas_despues": 348
+                "detalles": "Jugador: 6 vs Banca: 2",
+                "resultado": "gano",
+                "ganancia": 1,
+                "fichas_antes": 352,
+                "fichas_despues": 353
             }
         ]
     }

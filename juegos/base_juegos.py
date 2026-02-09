@@ -36,7 +36,7 @@ class Juego:
             return None
 
     def procesar_resultado(self, apuesta, gano, multiplicador, detalles="Sin detalles"):
-        fichas_antes = self.usuarios[self.uid]["fichas"]
+        fichas_antes = self.usuarios[self.uid]["fichas"] # Saldo real antes de la jugada
         
         self.usuarios = self.gestionar_apuesta(
             self.usuarios, self.uid, apuesta, self.nombre_juego, gano, multiplicador
@@ -56,18 +56,12 @@ class Juego:
             valor_historial = apuesta 
 
         registrar_partida(
-            user_id=self.uid,
-            nombre=self.usuarios[self.uid]["nombre"],
-            juego=self.nombre_juego,
-            apuesta=apuesta,
-            detalles=detalles,
-            resultado=resultado_txt,
-            ganancia=valor_historial,
-            antes=fichas_antes,
-            despues=fichas_despues
+            self.uid, self.usuarios[self.uid]["nombre"], self.nombre_juego, 
+            apuesta, detalles, resultado_txt, valor_historial, fichas_antes, fichas_despues
         )
         
         self.guardar_datos(self.usuarios)
+        return self.usuarios
         
         return self.usuarios
 

@@ -10,7 +10,31 @@ DB_PATH = "base_data/users.json"
 def guardar_datos_casino(datos_actualizados):
     guardar_json(DB_PATH, datos_actualizados)
 
-def menu_juegos(usuarios, uid):
+def menu_seleccion_juegos(usuarios, uid):
+    """Submenú exclusivo para los juegos"""
+    while True:
+        print("\n" + "-"*30)
+        print("      ZONA DE JUEGOS")
+        print("-" * 30)
+        print("1. Dados (Duelo x2)")
+        print("2. Carreras de Caballos")
+        print("3. Volver al menu anterior")
+        
+        op_juego = input("Selecciona un juego: ")
+
+        if op_juego == "1":
+            juego = JuegoDados(usuarios, uid, gestionar_apuesta, guardar_datos_casino)
+            juego.jugar()
+        elif op_juego == "2":
+            juego = JuegoCarreras(usuarios, uid, gestionar_apuesta, guardar_datos_casino)
+            juego.jugar()
+        elif op_juego == "3":
+            break
+        else:
+            print("Opcion no valida.")
+
+def menu_principal_sesion(usuarios, uid):
+    """Menu una vez iniciada la sesion"""
     sesion_activa = True
     
     while sesion_activa:
@@ -20,53 +44,39 @@ def menu_juegos(usuarios, uid):
         print("\n" + "="*40)
         print("         CASINO CANCINHUB")
         print("="*40)
-        print(f"Usuario: {nombre.upper()} | Saldo: {fichas} fichas")
+        print(f"Usuario: {nombre.upper()} | Fichas: {fichas}")
         print("-" * 40)
-        print("1. Dados (Duelo contra la banca x2)")
-        print("2. Carreras de Caballos (Hipodromo)")
-        print("3. Banco (Obtener fichas)")
-        print("4. Gacha de Chistes (Probar suerte)")
-        print("5. Ver mi Historial y Perfil")
-        print("6. Cerrar Sesion")
+        print("1. Ir a los juegos")
+        print("2. Banco (Obtener fichas)")
+        print("3. Gacha de Chistes")
+        print("4. Ver historial")
+        print("5. Cerrar sesion")
         print("-" * 40)
         
         op = input("Selecciona una opcion: ")
 
         if op == "1":
-            juego = JuegoDados(usuarios, uid, gestionar_apuesta, guardar_datos_casino)
-            juego.jugar()
+            menu_seleccion_juegos(usuarios, uid)
         
         elif op == "2":
-            juego = JuegoCarreras(usuarios, uid, gestionar_apuesta, guardar_datos_casino)
-            juego.jugar()
+            ejecutar_banco(usuarios, uid, guardar_datos_casino)
 
         elif op == "3":
-            ejecutar_banco(usuarios, uid, guardar_datos_casino)
-            
-        elif op == "4":
             print("\n[INFO] La Gacha de Chistes esta en mantenimiento.")
             
-        elif op == "5":
+        elif op == "4":
             perfil = obtener_historial_usuario(uid)
             if perfil:
                 print(f"\n--- ESTADISTICAS DE {perfil['usuario']} ---")
-                print(f"Saldo actual: {perfil['fichas_actuales']} fichas")
-                print(f"Partidas jugadas: {perfil['stats']['partidas_totales']}")
-                print("\nUltimos 5 movimientos:")
+                print(f"Fichas actuales: {perfil['fichas_actuales']}")
+                print(f"Ultimos movimientos:")
                 for p in perfil['ultimas_partidas']:
-                    if p['resultado'] == "gano":
-                        simb = "[+]"
-                    elif p['resultado'] == "perdio":
-                        simb = "[-]"
-                    else:
-                        simb = "[=]"
-                    
-                    print(f"{simb} {p['fecha']} | {p['juego'].capitalize()}: {p['resultado']} ({p['ganancia']} fichas)")
+                    print(f"{p['fecha']} | {p['juego'].capitalize()}: {p['resultado']} ({p['ganancia']} fichas)")
             else:
                 print("\nAun no tienes partidas registradas.")
 
-        elif op == "6":
-            print(f"\nSaliendo... Hasta pronto {nombre}!")
+        elif op == "5":
+            print(f"\nCerrando sesion... Hasta pronto {nombre}!")
             sesion_activa = False
         else:
             print("Opcion no valida. Intenta de nuevo.")
@@ -96,7 +106,7 @@ def main():
             password = input("Introduce tu contrasena: ")
             
             if iniciar_sesion(usuarios, uid, password):
-                menu_juegos(usuarios, uid)
+                menu_principal_sesion(usuarios, uid)
                 
         elif op == "3":
             print("\nApagando maquinas... Gracias por jugar!")
