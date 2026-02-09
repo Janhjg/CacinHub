@@ -4,6 +4,7 @@ from Funciones.historial import cargar_json, guardar_json, obtener_historial_usu
 from Funciones.banco import ejecutar_banco
 from juegos.carreras import JuegoCarreras 
 from juegos.dados import JuegoDados
+from juegos.ruleta import JuegoRuleta
 
 DB_PATH = "base_data/users.json"
 
@@ -18,7 +19,8 @@ def menu_seleccion_juegos(usuarios, uid):
         print("-" * 30)
         print("1. Dados (Duelo x2)")
         print("2. Carreras de Caballos")
-        print("3. Volver al menu anterior")
+        print("3. Ruleta de la suerte")
+        print("4. Volver al menu anterior")
         
         op_juego = input("Selecciona un juego: ")
 
@@ -29,6 +31,9 @@ def menu_seleccion_juegos(usuarios, uid):
             juego = JuegoCarreras(usuarios, uid, gestionar_apuesta, guardar_datos_casino)
             juego.jugar()
         elif op_juego == "3":
+            juego = JuegoRuleta(usuarios, uid, gestionar_apuesta, guardar_datos_casino)
+            juego.jugar()
+        elif op_juego =="4":
             break
         else:
             print("Opcion no valida.")
