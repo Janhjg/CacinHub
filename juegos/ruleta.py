@@ -9,13 +9,15 @@ class JuegoRuleta(Juego):
         self.numeros = list(range(0, 37))
 
         # Pares e impares
-        self.pares = [n for n in self.numeros if n % 2 == 0]
-        self.impares = [n for n in self.numeros if n % 2 != 0]
+        self.rojo = [n % 2 == 0 for n in self.numeros]
+        self.negro = [n % 2 != 0 for n in self.numeros]
 
     def jugar(self):
         print("\n" + "="*35)
         print("--- RULETA DE LA SUERTE ---")
         print("="*35)
+
+        apuesta = self.solicitar_apuesta()
 
         print("\nTipo de apuesta:")
         print("1 - Número (0 al 36)")
@@ -23,9 +25,10 @@ class JuegoRuleta(Juego):
         print("3 - Impares")
 
         eleccion = input("\nElija una opción (1/2/3): ")
+        numero = None
 
         if eleccion not in ("1", "2", "3"):
-            print("Selección no válida. Volviendo al menú.")
+            print("Selección no válida.")
             return
 
         if eleccion == "1":
@@ -39,14 +42,27 @@ class JuegoRuleta(Juego):
                 print("Número fuera de rango.")
                 return
 
-            tipo_apuesta = numero
+        ruleta = random.randint(0, 36)
+        print(f"\n¡¡La ruleta ha salido!! {ruleta}")
 
-        elif eleccion == "2":
-            tipo_apuesta = "pares"
+        gana = False
 
-        else:  # eleccion == "3"
-            tipo_apuesta = "impares"
+        if eleccion == "1":
+            if ruleta == numero:
+                gana = True
 
-        apuesta = self.solicitar_apuesta()
+        elif eleccion == "2": 
+            if ruleta != 0 and ruleta % 2 == 0:
+                gana = True
 
-        print(f"Apuesta realizada a: {tipo_apuesta} por {apuesta}")
+        elif eleccion == "3":
+            if ruleta % 2 != 0:
+                gana = True
+
+        if gana:
+            print("¡¡Has ganado!!")
+            self.gestionar_apuesta(self.uid, apuesta * 2)
+        else:
+            print("¡¡Has perdido!!")
+
+        print(f"\nSaldo actual: {self.usuarios[self.uid]['fichas']} fichas.")
