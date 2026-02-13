@@ -3,6 +3,46 @@
         "usuario": "Rompe-Aire",
         "partidas": [
             {
+                "fecha": "12/02/2026 13:25:15",
+                "juego": "dados",
+                "apuesta": 5,
+                "detalles": "Jugador: 3 vs Banca: 5",
+                "resultado": "perdio",
+                "ganancia": 5,
+                "fichas_antes": 347,
+                "fichas_despues": 342
+            },
+            {
+                "fecha": "12/02/2026 13:25:10",
+                "juego": "dados",
+                "apuesta": 5,
+                "detalles": "Jugador: 6 vs Banca: 5",
+                "resultado": "gano",
+                "ganancia": 5,
+                "fichas_antes": 342,
+                "fichas_despues": 347
+            },
+            {
+                "fecha": "12/02/2026 13:25:03",
+                "juego": "dados",
+                "apuesta": 5,
+                "detalles": "Jugador: 2 vs Banca: 5",
+                "resultado": "perdio",
+                "ganancia": 5,
+                "fichas_antes": 347,
+                "fichas_despues": 342
+            },
+            {
+                "fecha": "12/02/2026 13:24:35",
+                "juego": "dados",
+                "apuesta": 5,
+                "detalles": "Jugador: 2 vs Banca: 6",
+                "resultado": "perdio",
+                "ganancia": 5,
+                "fichas_antes": 352,
+                "fichas_despues": 347
+            },
+            {
                 "fecha": "09/02/2026 10:08:45",
                 "juego": "dados",
                 "apuesta": 1,
@@ -11,46 +51,6 @@
                 "ganancia": 0,
                 "fichas_antes": 352,
                 "fichas_despues": 352
-            },
-            {
-                "fecha": "09/02/2026 10:08:41",
-                "juego": "dados",
-                "apuesta": 1,
-                "detalles": "Jugador: 2 vs Banca: 5",
-                "resultado": "perdio",
-                "ganancia": 1,
-                "fichas_antes": 353,
-                "fichas_despues": 352
-            },
-            {
-                "fecha": "09/02/2026 10:08:37",
-                "juego": "dados",
-                "apuesta": 1,
-                "detalles": "Jugador: 3 vs Banca: 4",
-                "resultado": "perdio",
-                "ganancia": 1,
-                "fichas_antes": 354,
-                "fichas_despues": 353
-            },
-            {
-                "fecha": "09/02/2026 10:08:34",
-                "juego": "dados",
-                "apuesta": 1,
-                "detalles": "Jugador: 6 vs Banca: 1",
-                "resultado": "gano",
-                "ganancia": 1,
-                "fichas_antes": 353,
-                "fichas_despues": 354
-            },
-            {
-                "fecha": "09/02/2026 10:08:24",
-                "juego": "dados",
-                "apuesta": 1,
-                "detalles": "Jugador: 6 vs Banca: 2",
-                "resultado": "gano",
-                "ganancia": 1,
-                "fichas_antes": 352,
-                "fichas_despues": 353
             }
         ]
     },
@@ -58,34 +58,54 @@
         "usuario": "jacobo",
         "partidas": [
             {
-                "fecha": "06/02/2026 11:51:31",
-                "juego": "banco",
-                "apuesta": 0,
-                "detalles": "Retiro de fondos bancarios",
+                "fecha": "11/02/2026 14:02:08",
+                "juego": "dados",
+                "apuesta": 10,
+                "detalles": "Sin detalles",
                 "resultado": "gano",
-                "ganancia": 190,
-                "fichas_antes": 190,
-                "fichas_despues": 380
+                "ganancia": 290,
+                "fichas_antes": 1003890,
+                "fichas_despues": 1004180
             },
             {
-                "fecha": "06/02/2026 11:50:40",
+                "fecha": "11/02/2026 14:02:05",
                 "juego": "dados",
-                "apuesta": 90,
-                "detalles": "Empate tecnico",
-                "resultado": "empate",
-                "ganancia": 0,
-                "fichas_antes": 100,
-                "fichas_despues": 190
-            },
-            {
-                "fecha": "06/02/2026 11:50:00",
-                "juego": "dados",
-                "apuesta": 15,
-                "detalles": "Jugador: 1 vs Banca: 5",
+                "apuesta": 10,
+                "detalles": "Sin detalles",
                 "resultado": "perdio",
-                "ganancia": 15,
-                "fichas_antes": 100,
-                "fichas_despues": 100
+                "ganancia": 10,
+                "fichas_antes": 1003900,
+                "fichas_despues": 1003890
+            },
+            {
+                "fecha": "11/02/2026 14:02:03",
+                "juego": "dados",
+                "apuesta": 10,
+                "detalles": "Sin detalles",
+                "resultado": "perdio",
+                "ganancia": 10,
+                "fichas_antes": 1003910,
+                "fichas_despues": 1003900
+            },
+            {
+                "fecha": "11/02/2026 14:02:02",
+                "juego": "dados",
+                "apuesta": 10,
+                "detalles": "Sin detalles",
+                "resultado": "perdio",
+                "ganancia": 10,
+                "fichas_antes": 1003920,
+                "fichas_despues": 1003910
+            },
+            {
+                "fecha": "11/02/2026 14:02:00",
+                "juego": "dados",
+                "apuesta": 10,
+                "detalles": "Sin detalles",
+                "resultado": "perdio",
+                "ganancia": 10,
+                "fichas_antes": 1003930,
+                "fichas_despues": 1003920
             }
         ]
     }

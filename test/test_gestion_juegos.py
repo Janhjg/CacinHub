@@ -1,5 +1,4 @@
 import json
-import pytest
 from Funciones.funciones import *
 from Funciones.historial import *
 from juegos.base_juegos import Juego
