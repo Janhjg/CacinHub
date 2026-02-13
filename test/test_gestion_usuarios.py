@@ -1,8 +1,7 @@
 from Funciones.funciones import *
-import pytest
 import json
 from datetime import datetime
-
+import pytest
 
 @pytest.fixture
 def usuarios_db_limpio():
@@ -91,10 +90,9 @@ def test_fichas_no_negativas_con_property():
     # Intentar asignar fichas negativas
     user.fichas = -50
     
-    # El setter debe convertirlas a 0
     assert user.fichas == 0, "Las fichas negativas deben convertirse a 0"
 def test_validacion_apuesta_mayor_que_cero():
-    """Verifica conceptualmente que apuestas válidas deben ser mayores que 0"""
+    """Verifica que apuestas válidas deben ser mayores que 0"""
     apuesta_valida_1 = 10
     apuesta_valida_2 = 50.5
     apuesta_valida_3 = 1

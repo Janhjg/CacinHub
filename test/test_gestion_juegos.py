@@ -3,6 +3,7 @@ from Funciones.funciones import *
 from Funciones.historial import *
 from juegos.base_juegos import Juego
 import os
+import pytest
 
 @pytest.fixture
 def usuarios_db_con_usuario():
