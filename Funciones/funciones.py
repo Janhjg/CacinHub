@@ -91,11 +91,18 @@ def gestionar_apuesta(usuarios, uid, monto_apuesta, juego, gano, multiplicador):
     
     usuarios[uid]["fichas"] -= monto_apuesta
 
-    if gano and multiplicador > 1:
-        premio = monto_apuesta * multiplicador
-        usuarios[uid]["fichas"] += premio
+    if gano:
+        if multiplicador > 1:
+            premio = monto_apuesta * multiplicador
+            usuarios[uid]["fichas"] += premio
+        elif multiplicador == 1: 
+            usuarios[uid]["fichas"] += monto_apuesta
+
+    if "stats" not in usuarios[uid]:
+        usuarios[uid]["stats"] = {"partidas_totales": 0, "dados": 0, "ruleta": 0, "tragamonedas": 0, "carreras": 0}
     
-    elif gano and multiplicador == 1:
-        usuarios[uid]["fichas"] += monto_apuesta
+    usuarios[uid]["stats"]["partidas_totales"] += 1
+    if juego in usuarios[uid]["stats"]:
+        usuarios[uid]["stats"][juego] += 1
           
     return usuarios

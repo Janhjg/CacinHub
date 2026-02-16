@@ -53,7 +53,7 @@ class Juego:
                 valor_historial = fichas_despues - fichas_antes
         else:
             resultado_txt = "perdio"
-            valor_historial = apuesta 
+            valor_historial = -apuesta
 
         registrar_partida(
             self.uid, self.usuarios[self.uid]["nombre"], self.nombre_juego, 
@@ -63,8 +63,6 @@ class Juego:
         self.guardar_datos(self.usuarios)
         return self.usuarios
         
-        return self.usuarios
-
     def animacion_espera(self, mensaje=""):
         if mensaje:
             print(f"\n{mensaje}")

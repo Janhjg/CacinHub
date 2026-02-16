@@ -3,54 +3,54 @@
         "usuario": "Rompe-Aire",
         "partidas": [
             {
-                "fecha": "12/02/2026 13:25:15",
+                "fecha": "16/02/2026 13:42:08",
                 "juego": "dados",
-                "apuesta": 5,
-                "detalles": "Jugador: 3 vs Banca: 5",
+                "apuesta": 4,
+                "detalles": "Sin detalles",
                 "resultado": "perdio",
-                "ganancia": 5,
-                "fichas_antes": 347,
-                "fichas_despues": 342
+                "ganancia": -4,
+                "fichas_antes": 321,
+                "fichas_despues": 317
             },
             {
-                "fecha": "12/02/2026 13:25:10",
+                "fecha": "16/02/2026 13:42:02",
                 "juego": "dados",
-                "apuesta": 5,
-                "detalles": "Jugador: 6 vs Banca: 5",
-                "resultado": "gano",
-                "ganancia": 5,
-                "fichas_antes": 342,
-                "fichas_despues": 347
-            },
-            {
-                "fecha": "12/02/2026 13:25:03",
-                "juego": "dados",
-                "apuesta": 5,
-                "detalles": "Jugador: 2 vs Banca: 5",
+                "apuesta": 4,
+                "detalles": "Sin detalles",
                 "resultado": "perdio",
-                "ganancia": 5,
-                "fichas_antes": 347,
-                "fichas_despues": 342
+                "ganancia": -4,
+                "fichas_antes": 325,
+                "fichas_despues": 321
             },
             {
-                "fecha": "12/02/2026 13:24:35",
-                "juego": "dados",
-                "apuesta": 5,
-                "detalles": "Jugador: 2 vs Banca: 6",
+                "fecha": "16/02/2026 13:41:56",
+                "juego": "ruleta",
+                "apuesta": 3,
+                "detalles": "Sin detalles",
                 "resultado": "perdio",
-                "ganancia": 5,
-                "fichas_antes": 352,
-                "fichas_despues": 347
+                "ganancia": -3,
+                "fichas_antes": 328,
+                "fichas_despues": 325
             },
             {
-                "fecha": "09/02/2026 10:08:45",
+                "fecha": "16/02/2026 13:41:44",
+                "juego": "carreras",
+                "apuesta": 2,
+                "detalles": "Aposto por Tamamo Cross. Ganador: Secretariat",
+                "resultado": "perdio",
+                "ganancia": -2,
+                "fichas_antes": 330,
+                "fichas_despues": 328
+            },
+            {
+                "fecha": "16/02/2026 13:41:29",
                 "juego": "dados",
                 "apuesta": 1,
-                "detalles": "Empate tecnico",
-                "resultado": "empate",
-                "ganancia": 0,
-                "fichas_antes": 352,
-                "fichas_despues": 352
+                "detalles": "Jugador: 2 vs Banca: 5",
+                "resultado": "perdio",
+                "ganancia": -1,
+                "fichas_antes": 331,
+                "fichas_despues": 330
             }
         ]
     },
