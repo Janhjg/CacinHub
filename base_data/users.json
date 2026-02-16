@@ -86,8 +86,22 @@
         "nombre": "Janh",
         "contrasena": "1234",
         "fecha_nacimiento": "24/1/2000",
-        "fichas": 300,
+        "fichas": 305,
         "fecha_registro": "16/02/2026 01:12:07",
+        "stats": {
+            "partidas_totales": 0,
+            "dados": 0,
+            "ruleta": 0,
+            "tragamonedas": 0,
+            "carreras": 0
+        }
+    },
+    "1398": {
+        "nombre": "dada",
+        "contrasena": "1234",
+        "fecha_nacimiento": "24/10/2000",
+        "fichas": 95,
+        "fecha_registro": "16/02/2026 12:13:59",
         "stats": {
             "partidas_totales": 0,
             "dados": 0,

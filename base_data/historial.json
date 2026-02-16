@@ -113,6 +113,26 @@
         "usuario": "Janh",
         "partidas": [
             {
+                "fecha": "16/02/2026 12:18:02",
+                "juego": "dados",
+                "apuesta": 10,
+                "detalles": "Jugador: 5 vs Banca: 3",
+                "resultado": "gano",
+                "ganancia": 10,
+                "fichas_antes": 295,
+                "fichas_despues": 305
+            },
+            {
+                "fecha": "16/02/2026 12:10:37",
+                "juego": "dados",
+                "apuesta": 5,
+                "detalles": "Jugador: 2 vs Banca: 5",
+                "resultado": "perdio",
+                "ganancia": 5,
+                "fichas_antes": 300,
+                "fichas_despues": 295
+            },
+            {
                 "fecha": "16/02/2026 01:29:11",
                 "juego": "banco",
                 "apuesta": 0,
@@ -131,6 +151,31 @@
                 "ganancia": 100,
                 "fichas_antes": 100,
                 "fichas_despues": 200
+            }
+        ]
+    },
+    "1398": {
+        "usuario": "dada",
+        "partidas": [
+            {
+                "fecha": "16/02/2026 12:16:33",
+                "juego": "carreras",
+                "apuesta": 10,
+                "detalles": "Aposto por Tormenta China. Ganador: Secretariat",
+                "resultado": "perdio",
+                "ganancia": 10,
+                "fichas_antes": 105,
+                "fichas_despues": 95
+            },
+            {
+                "fecha": "16/02/2026 12:15:08",
+                "juego": "dados",
+                "apuesta": 5,
+                "detalles": "Jugador: 3 vs Banca: 2",
+                "resultado": "gano",
+                "ganancia": 5,
+                "fichas_antes": 100,
+                "fichas_despues": 105
             }
         ]
     }

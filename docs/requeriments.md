@@ -4,3 +4,4 @@ Librerias
 * Datetime
 * Os
 * Json
+(pydantic)

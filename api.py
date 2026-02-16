@@ -205,6 +205,7 @@ def listar_usuarios():
 # =====================================================
 # ENDPOINT: OBTENER SALDO
 # =====================================================
+
 class AgregarFichasRequest(BaseModel):
     user_id: str
     contrasena: str
