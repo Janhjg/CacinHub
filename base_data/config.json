@@ -1,0 +1,15 @@
+{
+  "sistema": {
+    "nombre": "CacinHub",
+    "fichas_iniciales": 100.0
+  },
+  "seguridad": {
+    "longitud_minima_contrasena": 6,
+    "salt_rounds": 10
+  },
+  "limites": {
+    "apuesta_maxima": 1000.0,
+    "deposito_maximo": 10000.0,
+    "historial_limite_default": 50
+  }
+}
