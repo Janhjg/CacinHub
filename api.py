@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from typing import Optional
 
@@ -10,10 +10,13 @@ from juegos.dados_api import JuegoDadosAPI
 from juegos.carreras_api import JuegoCarrerasAPI
 from juegos.ruleta_api import JuegoRuletaAPI
 from juegos.traga_monedas_api import JuegoTragaMonedasAPI
+import json
+import os
 
 app = FastAPI(title="Casino CancinHub API", description="API profesional para el Casino Virtual")
 
 DB_PATH = "base_data/users.json"
+DB_PATH2 = "base_data/historial.json"
 
 class DatosApuesta(BaseModel):
     user_id: str
@@ -25,6 +28,73 @@ class DatosApuestaRuleta(BaseModel):
     monto: int
     tipo_apuesta: str  # "1": Pleno, "2": Rojo, "3": Negro
     numero: Optional[int] = None
+
+# ENDPOINT DE HISTORICO
+
+
+# Cargar el JSON desde archivo
+def cargar_datos():
+    with open(DB_PATH2, "r", encoding="utf-8") as f:
+        return json.load(f)
+    
+@app.get("/jugadas")
+def get_todos_los_usuarios():
+    datos = cargar_datos()
+    
+    resultado = []
+    for user_id, info in datos.items():
+        resultado.append({
+            "id": user_id,
+            "usuario": info["usuario"],
+            "total_partidas": len(info["partidas"]),
+            "partidas": info["partidas"]
+        })
+    
+    return resultado
+
+@app.get("/jugadas/fecha")
+def get_jugadas_por_fecha(fecha: str = Query(..., description="Fecha en formato DD/MM/YYYY")):
+    datos = cargar_datos()
+    resultado = []
+
+    for user_id, info in datos.items():
+        partidas_filtradas = [
+            p for p in info["partidas"]
+            if p["fecha"].startswith(fecha)
+        ]
+        if partidas_filtradas:
+            resultado.append({
+                "id": user_id,
+                "usuario": info["usuario"],
+                "total_partidas": len(partidas_filtradas),
+                "partidas": partidas_filtradas
+            })
+
+    if not resultado:
+        raise HTTPException(status_code=404, detail=f"No se encontraron jugadas para la fecha {fecha}")
+
+    return resultado
+
+
+
+@app.get("/jugadas/{user_id}")
+def get_jugadas_usuario(user_id: str):
+    datos = cargar_datos()
+    #print(f"ID recibido: '{user_id}'")
+    #print(f"Claves en JSON: {list(datos.keys())}")
+    #print(f"¿Existe?: {user_id in datos}")
+    if user_id not in datos:
+        raise HTTPException(status_code=404, detail=f"Usuario con ID {user_id} no encontrado")
+    
+    usuario_data = datos[user_id]
+    
+    return {
+        "id": user_id,
+        "usuario": usuario_data["usuario"],
+        "total_partidas": len(usuario_data["partidas"]),
+        "partidas": usuario_data["partidas"]
+    }
+
 
 """--- ENDPOINTS DE JUEGOS ---"""
 

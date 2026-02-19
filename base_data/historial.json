@@ -58,7 +58,7 @@
         "usuario": "jacobo",
         "partidas": [
             {
-                "fecha": "11/02/2026 14:02:08",
+                "fecha": "12/02/2026 14:02:08",
                 "juego": "dados",
                 "apuesta": 10,
                 "detalles": "Sin detalles",
@@ -68,7 +68,7 @@
                 "fichas_despues": 1004180
             },
             {
-                "fecha": "11/02/2026 14:02:05",
+                "fecha": "12/02/2026 14:02:05",
                 "juego": "dados",
                 "apuesta": 10,
                 "detalles": "Sin detalles",
@@ -78,7 +78,7 @@
                 "fichas_despues": 1003890
             },
             {
-                "fecha": "11/02/2026 14:02:03",
+                "fecha": "12/02/2026 14:02:03",
                 "juego": "dados",
                 "apuesta": 10,
                 "detalles": "Sin detalles",
@@ -154,6 +154,60 @@
             }
         ]
     },
+<<<<<<< HEAD
+    "7826": {
+        "usuario": "edisson",
+        "partidas": [
+            {
+                "fecha": "17/02/2026 13:36:37",
+                "juego": "carreras",
+                "apuesta": 30,
+                "detalles": "Aposto por Secretariat. Ganador: Tormenta China",
+                "resultado": "perdio",
+                "ganancia": 30,
+                "fichas_antes": 60,
+                "fichas_despues": 30
+            },
+            {
+                "fecha": "17/02/2026 13:36:16",
+                "juego": "dados",
+                "apuesta": 50,
+                "detalles": "Jugador: 4 vs Banca: 6",
+                "resultado": "perdio",
+                "ganancia": 50,
+                "fichas_antes": 110,
+                "fichas_despues": 60
+            },
+            {
+                "fecha": "17/02/2026 13:36:03",
+                "juego": "dados",
+                "apuesta": 10,
+                "detalles": "Empate tecnico",
+                "resultado": "empate",
+                "ganancia": 0,
+                "fichas_antes": 110,
+                "fichas_despues": 110
+            },
+            {
+                "fecha": "17/02/2026 13:35:35",
+                "juego": "dados",
+                "apuesta": 20,
+                "detalles": "Empate tecnico",
+                "resultado": "empate",
+                "ganancia": 0,
+                "fichas_antes": 110,
+                "fichas_despues": 110
+            },
+            {
+                "fecha": "16/02/2026 12:45:41",
+                "juego": "carreras",
+                "apuesta": 10,
+                "detalles": "Aposto por Tamamo Cross. Ganador: Secretariat",
+                "resultado": "perdio",
+                "ganancia": 10,
+                "fichas_antes": 120,
+                "fichas_despues": 110
+=======
     "1398": {
         "usuario": "dada",
         "partidas": [
@@ -183,7 +237,11 @@
         "usuario": "Juan Test",
         "partidas": [
             {
+<<<<<<< HEAD
                 "fecha": "19/02/2026 11:03:37",
+=======
+                "fecha": "19/02/2026 13:28:30",
+>>>>>>> 09329133b09daee794b1a69abf425604683c3f8b
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -193,7 +251,11 @@
                 "fichas_despues": 550
             },
             {
+<<<<<<< HEAD
                 "fecha": "19/02/2026 11:03:37",
+=======
+                "fecha": "19/02/2026 13:28:30",
+>>>>>>> 09329133b09daee794b1a69abf425604683c3f8b
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -203,7 +265,11 @@
                 "fichas_despues": 450
             },
             {
+<<<<<<< HEAD
                 "fecha": "19/02/2026 11:03:37",
+=======
+                "fecha": "19/02/2026 13:28:30",
+>>>>>>> 09329133b09daee794b1a69abf425604683c3f8b
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -213,7 +279,11 @@
                 "fichas_despues": 700
             },
             {
+<<<<<<< HEAD
                 "fecha": "19/02/2026 11:03:37",
+=======
+                "fecha": "19/02/2026 13:28:29",
+>>>>>>> 09329133b09daee794b1a69abf425604683c3f8b
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -223,7 +293,11 @@
                 "fichas_despues": 550
             },
             {
+<<<<<<< HEAD
                 "fecha": "19/02/2026 11:03:37",
+=======
+                "fecha": "19/02/2026 13:28:29",
+>>>>>>> 09329133b09daee794b1a69abf425604683c3f8b
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -231,6 +305,77 @@
                 "ganancia": 150,
                 "fichas_antes": 300,
                 "fichas_despues": 450
+>>>>>>> 4dcd96e9a0e86df9b76c523a4177b8f2dcb1478e
+            }
+        ]
+    },
+    "6767": {
+        "usuario": "Kazuma Kiryu",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 13:28:29",
+                "juego": "carreras",
+                "apuesta": 100,
+                "detalles": "Apostó por Secretariat. Ganador: Tamamo Cross",
+                "resultado": "perdio",
+                "ganancia": -100,
+                "fichas_antes": 1000,
+                "fichas_despues": 900
+            },
+            {
+                "fecha": "19/02/2026 10:52:24",
+                "juego": "carreras",
+                "apuesta": 100,
+                "detalles": "Apostó por Secretariat. Ganador: Secretariat",
+                "resultado": "gano",
+                "ganancia": 100,
+                "fichas_antes": 1000,
+                "fichas_despues": 1100
+            }
+        ]
+    },
+    "6969": {
+        "usuario": "Kaiji Itou",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 13:28:30",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 13:28:30",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
+            },
+            {
+                "fecha": "19/02/2026 10:52:24",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 10:52:24",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
             }
         ]
     },
