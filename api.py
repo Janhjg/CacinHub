@@ -46,8 +46,11 @@ def api_carreras(req: DatosApuesta):
     usuarios = cargar_json(DB_PATH)
     if req.user_id not in usuarios:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
-
+    if req.monto > usuarios[req.user_id]["fichas"]:
+        raise HTTPException(status_code=400, detail="Fichas insuficientes")
+        
     juego = JuegoCarrerasAPI(usuarios, req.user_id, gestionar_apuesta, lambda d: guardar_json(DB_PATH, d))
+    
     if req.eleccion not in juego.caballos:
         raise HTTPException(status_code=400, detail="Ese caballo no existe en el hipódromo")
 

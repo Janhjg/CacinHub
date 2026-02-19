@@ -3,6 +3,16 @@
         "usuario": "Rompe-Aire",
         "partidas": [
             {
+                "fecha": "19/02/2026 10:17:50",
+                "juego": "dados",
+                "apuesta": 1,
+                "detalles": "Jugador: 1 vs Banca: 4",
+                "resultado": "perdio",
+                "ganancia": -1,
+                "fichas_antes": 307,
+                "fichas_despues": 306
+            },
+            {
                 "fecha": "16/02/2026 13:42:08",
                 "juego": "dados",
                 "apuesta": 4,
@@ -41,16 +51,6 @@
                 "ganancia": -2,
                 "fichas_antes": 330,
                 "fichas_despues": 328
-            },
-            {
-                "fecha": "16/02/2026 13:41:29",
-                "juego": "dados",
-                "apuesta": 1,
-                "detalles": "Jugador: 2 vs Banca: 5",
-                "resultado": "perdio",
-                "ganancia": -1,
-                "fichas_antes": 331,
-                "fichas_despues": 330
             }
         ]
     },

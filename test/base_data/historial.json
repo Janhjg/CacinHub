@@ -1,0 +1,82 @@
+{
+    "6767": {
+        "usuario": "Kazuma Kiryu",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 09:55:53",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 09:55:53",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
+            },
+            {
+                "fecha": "19/02/2026 09:53:25",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 09:53:25",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
+            },
+            {
+                "fecha": "19/02/2026 09:50:06",
+                "juego": "carreras",
+                "apuesta": 100,
+                "detalles": "Apostó por Secretariat. Ganador: Secretariat",
+                "resultado": "gano",
+                "ganancia": 100,
+                "fichas_antes": 1000,
+                "fichas_despues": 1100
+            }
+        ]
+    },
+    "6969": {
+        "usuario": "Kaiji Itou",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 09:57:08",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 09:57:08",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
+            }
+        ]
+    }
+}
