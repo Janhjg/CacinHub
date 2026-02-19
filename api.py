@@ -92,7 +92,7 @@ def api_tragamonedas(req: DatosApuesta):
 
 @app.post("/gacha/chiste")
 def api_tirar_gacha(user_id: str):
-    """Endpoint para que Kaiji canjee chistes por 5 fichas"""
+    """Endpoint para canje chistes por 5 fichas"""
     usuarios = cargar_json(DB_PATH)
     
     if user_id not in usuarios:
