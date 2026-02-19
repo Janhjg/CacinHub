@@ -1,329 +1,470 @@
-from Funciones.funciones import *
-from juegos.base_juegos import Juego
 import pytest
-import json
+import api
+from fastapi.testclient import TestClient
+
+client = TestClient(api.app)
+
+# ══════════════════════════════════════════════════════════════
+# DATOS DE PRUEBA
+# ══════════════════════════════════════════════════════════════
+
+USUARIO_REAL = {
+    "nombre": "Juan Test",
+    "contrasena": "pass123",
+    "fecha_nacimiento": "01/01/1990",
+    "fichas": 500,
+    "fecha_registro": "01/01/2024 00:00:00",
+    "stats": {
+        "partidas_totales": 0,
+        "dados": 0,
+        "ruleta": 0,
+        "tragamonedas": 0,
+        "carreras": 0
+    }
+}
+
+# ══════════════════════════════════════════════════════════════
+# CLASES FALSAS DE JUEGOS (reemplazan a las reales en los tests)
+# ══════════════════════════════════════════════════════════════
+
+class DadosFalso:
+    def __init__(self, usuarios, uid, gestionar, guardar):
+        self.usuarios = usuarios
+        self.uid = uid
+    def ejecutar_logica(self, monto):
+        return {"resultado": "ganaste", "ganancia": monto * 2}
+
+class CarrerasFalso:
+    caballos = {"1": "Rayo", "2": "Trueno", "3": "Viento", "4": "Fuego"}
+    def __init__(self, usuarios, uid, gestionar, guardar):
+        pass
+    def ejecutar_logica(self, monto, eleccion):
+        return {"resultado": "ganaste", "caballo": eleccion}
+
+class RuletaFalso:
+    def __init__(self, usuarios, uid, gestionar, guardar):
+        pass
+    def ejecutar_logica(self, monto, tipo_apuesta, numero=None):
+        return {"resultado": "numero", "numero_ganador": 7}
+
+class TragaMonedasFalso:
+    def __init__(self, usuarios, uid, gestionar, guardar):
+        pass
+    def ejecutar_logica(self, monto):
+        return {"resultado": "jackpot", "ganancia": monto * 5}
+
+# ══════════════════════════════════════════════════════════════
+# FIXTURES
+# ══════════════════════════════════════════════════════════════
+
+@pytest.fixture()
+def un_usuario():
+    return {"USR001": {**USUARIO_REAL}}
+
+@pytest.fixture()
+def sin_usuarios():
+    return {}
+
+@pytest.fixture()
+def sin_disco(monkeypatch):
+    """Evita que los tests escriban en disco."""
+    monkeypatch.setattr(api, "guardar_json",     lambda path, data: None)
+    monkeypatch.setattr(api, "guardar_usuarios", lambda data: None)
+
+@pytest.fixture()
+def juegos_falsos(monkeypatch):
+    """Reemplaza todos los juegos reales por versiones controladas."""
+    monkeypatch.setattr(api, "JuegoDadosAPI",        DadosFalso)
+    monkeypatch.setattr(api, "JuegoCarrerasAPI",     CarrerasFalso)
+    monkeypatch.setattr(api, "JuegoRuletaAPI",       RuletaFalso)
+    monkeypatch.setattr(api, "JuegoTragaMonedasAPI", TragaMonedasFalso)
+
+# ══════════════════════════════════════════════════════════════
+# HELPER
+# ══════════════════════════════════════════════════════════════
+
+def usar_db(monkeypatch, db):
+    """Inyecta una BD falsa en memoria para el test."""
+    monkeypatch.setattr(api, "cargar_json",     lambda path: db)
+    monkeypatch.setattr(api, "cargar_usuarios", lambda: db)
+
+# ══════════════════════════════════════════════════════════════
+# 1. POST /jugar/dados
+# ══════════════════════════════════════════════════════════════
+
+class TestDados:
+
+    def test_jugada_correcta(self, monkeypatch, un_usuario, sin_disco, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/dados", json={"user_id": "USR001", "monto": 100})
+        assert r.status_code == 200
+        assert r.json()["resultado"] == "ganaste"
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post("/jugar/dados", json={"user_id": "USR001", "monto": 100})
+        assert r.status_code == 404
+        assert "no encontrado" in r.json()["detail"].lower()
+
+    def test_fichas_insuficientes(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/dados", json={"user_id": "USR001", "monto": 9999})
+        assert r.status_code == 400
+        assert "insuficientes" in r.json()["detail"].lower()
+
+    def test_monto_exacto_al_saldo(self, monkeypatch, un_usuario, sin_disco, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/dados", json={"user_id": "USR001", "monto": 500})
+        assert r.status_code == 200
+
+    @pytest.mark.parametrize("monto", [1, 50, 250, 499])
+    def test_montos_validos(self, monkeypatch, un_usuario, sin_disco, juegos_falsos, monto):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/dados", json={"user_id": "USR001", "monto": monto})
+        assert r.status_code == 200
 
 
-@pytest.fixture
-def usuarios_db_con_usuario():
-    """Crea un usuario de prueba sin usar crear_usuario() que pide input"""
-    usuario_test = Usuario("TestUser", "pass123", "01/01/2000", id_usuario="1234", fichas=100)
-    return {"1234": usuario_test.to_dict()}
+# ══════════════════════════════════════════════════════════════
+# 2. POST /jugar/carreras
+# ══════════════════════════════════════════════════════════════
+
+class TestCarreras:
+
+    @pytest.mark.parametrize("caballo", ["1", "2", "3", "4"])
+    def test_caballo_valido(self, monkeypatch, un_usuario, sin_disco, juegos_falsos, caballo):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/carreras", json={"user_id": "USR001", "monto": 50, "eleccion": caballo})
+        assert r.status_code == 200
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios, juegos_falsos):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post("/jugar/carreras", json={"user_id": "USR001", "monto": 50, "eleccion": "1"})
+        assert r.status_code == 404
+
+    def test_caballo_invalido(self, monkeypatch, un_usuario, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/carreras", json={"user_id": "USR001", "monto": 50, "eleccion": "99"})
+        assert r.status_code == 400
+        assert "caballo" in r.json()["detail"].lower()
+
+    def test_eleccion_por_defecto(self, monkeypatch, un_usuario, sin_disco, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/carreras", json={"user_id": "USR001", "monto": 50})
+        assert r.status_code == 200
 
 
-@pytest.fixture
-def usuarios_db_con_poco_saldo():
-    """Crea un usuario con pocas fichas para probar validaciones"""
-    usuario_pobre = Usuario("UsuarioPobre", "pass123", "01/01/2000", id_usuario="5678", fichas=10)
-    return {"5678": usuario_pobre.to_dict()}
+# ══════════════════════════════════════════════════════════════
+# 3. POST /jugar/ruleta
+# ══════════════════════════════════════════════════════════════
+
+class TestRuleta:
+
+    def test_pleno_numero_valido(self, monkeypatch, un_usuario, sin_disco, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 100, "tipo_apuesta": "1", "numero": 17})
+        assert r.status_code == 200
+
+    def test_pleno_numero_cero(self, monkeypatch, un_usuario, sin_disco, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 100, "tipo_apuesta": "1", "numero": 0})
+        assert r.status_code == 200
+
+    def test_pleno_sin_numero(self, monkeypatch, un_usuario, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 100, "tipo_apuesta": "1"})
+        assert r.status_code == 400
+
+    @pytest.mark.parametrize("numero", [-1, 37, 100])
+    def test_pleno_numero_fuera_de_rango(self, monkeypatch, un_usuario, juegos_falsos, numero):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 100, "tipo_apuesta": "1", "numero": numero})
+        assert r.status_code == 400
+
+    @pytest.mark.parametrize("tipo", ["2", "3"])
+    def test_apuesta_color(self, monkeypatch, un_usuario, sin_disco, juegos_falsos, tipo):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 100, "tipo_apuesta": tipo})
+        assert r.status_code == 200
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 100, "tipo_apuesta": "2"})
+        assert r.status_code == 404
+
+    def test_fichas_insuficientes(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/ruleta", json={"user_id": "USR001", "monto": 9999, "tipo_apuesta": "2"})
+        assert r.status_code == 400
 
 
-@pytest.fixture
-def usuarios_db_varios_usuarios():
-    """Crea varios usuarios con diferentes saldos"""
-    usuarios = {}
-    
-    user1 = Usuario("Rico", "pass1", "01/01/1990", id_usuario="1111", fichas=1000)
-    user2 = Usuario("Medio", "pass2", "15/05/1995", id_usuario="2222", fichas=100)
-    user3 = Usuario("Pobre", "pass3", "30/12/2000", id_usuario="3333", fichas=10)
-    
-    usuarios["1111"] = user1.to_dict()
-    usuarios["2222"] = user2.to_dict()
-    usuarios["3333"] = user3.to_dict()
-    
-    return usuarios
+# ══════════════════════════════════════════════════════════════
+# 4. POST /jugar/tragamonedas
+# ══════════════════════════════════════════════════════════════
+
+class TestTragaMonedas:
+
+    def test_jugada_correcta(self, monkeypatch, un_usuario, sin_disco, juegos_falsos):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/tragamonedas", json={"user_id": "USR001", "monto": 50})
+        assert r.status_code == 200
+        assert r.json()["resultado"] == "jackpot"
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post("/jugar/tragamonedas", json={"user_id": "USR001", "monto": 50})
+        assert r.status_code == 404
+
+    def test_fichas_insuficientes(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post("/jugar/tragamonedas", json={"user_id": "USR001", "monto": 9999})
+        assert r.status_code == 400
+
+    def test_juego_devuelve_error_retorna_400(self, monkeypatch, un_usuario):
+        """Si el juego falla internamente, el endpoint debe devolver 400."""
+        usar_db(monkeypatch, un_usuario)
+
+        class JuegoRoto:
+            def __init__(self, usuarios, uid, gestionar, guardar): pass
+            def ejecutar_logica(self, monto):
+                return {"error": "algo salio mal"}
+
+        monkeypatch.setattr(api, "JuegoTragaMonedasAPI", JuegoRoto)
+        r = client.post("/jugar/tragamonedas", json={"user_id": "USR001", "monto": 50})
+        assert r.status_code == 400
 
 
-# =====================================================
-# TESTS DE GESTIÓN DE APUESTAS CON gestionar_apuesta()
-# =====================================================
+# ══════════════════════════════════════════════════════════════
+# 5. POST /api/usuarios  —  crear usuario
+# ══════════════════════════════════════════════════════════════
 
-def test_apuesta_ganada_aumenta_fichas(usuarios_db_con_usuario):
-    """Verifica que al ganar una apuesta se incrementan las fichas correctamente"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_antes = usuarios_db["1234"]["fichas"]  # 100
-    monto_apuesta = 20
-    multiplicador = 2
-    
-    # Ganar apuesta
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", monto_apuesta, "dados", gano=True, multiplicador=multiplicador)
-    
-    fichas_despues = usuarios_db["1234"]["fichas"]
-    ganancia_neta = monto_apuesta * (multiplicador - 1)
-    
-    # Verificar que las fichas aumentaron correctamente
-    assert fichas_despues == fichas_antes + ganancia_neta
-    assert fichas_despues == 120  # 100 - 20 + (20 * 2) = 120
+class TestCrearUsuario:
 
+    URL = "/api/usuarios"
 
-def test_apuesta_perdida_no_aumenta_fichas(usuarios_db_con_usuario):
-    """Verifica que al perder una apuesta las fichas disminuyen"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_antes = usuarios_db["1234"]["fichas"]  # 100
-    monto_apuesta = 20
-    
-    # Perder apuesta
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", monto_apuesta, "ruleta", gano=False, multiplicador=2)
-    
-    fichas_despues = usuarios_db["1234"]["fichas"]
-    
-    # Las fichas deben disminuir al perder
-    assert fichas_despues == fichas_antes - monto_apuesta
-    assert fichas_despues == 80  # 100 - 20
+    def test_creacion_exitosa(self, monkeypatch, sin_usuarios, sin_disco):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post(self.URL, json={
+            "nombre": "Ana García",
+            "contrasena": "segura1",
+            "fecha_nacimiento": "01/01/1994"
+        })
+        body = r.json()
+        assert r.status_code == 200
+        assert body["success"] is True
+        assert "id" in body["data"]
+        assert body["data"]["nombre"] == "Ana García"
 
+    def test_nombre_muy_corto(self):
+        r = client.post(self.URL, json={
+            "nombre": "Ab",
+            "contrasena": "segura1",
+            "fecha_nacimiento": "01/01/1994"
+        })
+        assert r.json()["success"] is False
+        assert "nombre" in r.json()["message"].lower()
 
-def test_actualizacion_de_fichas_multiples_apuestas(usuarios_db_con_usuario):
-    """Verifica que las fichas se actualizan correctamente tras múltiples apuestas"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    # Ganar primera apuesta: 100 - 20 + (20 * 2) = 120
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 20, "dados", gano=True, multiplicador=2)
-    assert usuarios_db["1234"]["fichas"] == 120
-    
-    # Perder segunda apuesta: 120 - 10 = 110
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "ruleta", gano=False, multiplicador=2)
-    assert usuarios_db["1234"]["fichas"] == 110
-    
-    # Ganar tercera apuesta con multiplicador 3: 110 - 10 + (10 * 3) = 130
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "tragamonedas", gano=True, multiplicador=3)
-    assert usuarios_db["1234"]["fichas"] == 130
+    def test_contrasena_muy_corta(self):
+        r = client.post(self.URL, json={
+            "nombre": "Ana García",
+            "contrasena": "abc",
+            "fecha_nacimiento": "01/01/1994"
+        })
+        assert r.json()["success"] is False
+        assert "contraseña" in r.json()["message"].lower()
 
+    def test_fecha_invalida(self):
+        r = client.post(self.URL, json={
+            "nombre": "Ana García",
+            "contrasena": "segura1",
+            "fecha_nacimiento": "no-es-una-fecha"
+        })
+        assert r.json()["success"] is False
+        assert "fecha" in r.json()["message"].lower()
 
-def test_diferentes_multiplicadores(usuarios_db_con_usuario):
-    """Verifica que funcionan correctamente diferentes multiplicadores"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    # Multiplicador 2: 100 - 10 + (10*2) = 110
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "dados", gano=True, multiplicador=2)
-    assert usuarios_db["1234"]["fichas"] == 110
-    
-    # Multiplicador 3: 110 - 10 + (10*3) = 130
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "tragamonedas", gano=True, multiplicador=3)
-    assert usuarios_db["1234"]["fichas"] == 130
-    
-    # Multiplicador 5: 130 - 10 + (10*5) = 170
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "carreras", gano=True, multiplicador=5)
-    assert usuarios_db["1234"]["fichas"] == 170
+    def test_menor_de_edad(self):
+        r = client.post(self.URL, json={
+            "nombre": "Ana García",
+            "contrasena": "segura1",
+            "fecha_nacimiento": "01/01/2015"
+        })
+        body = r.json()
+        assert body["success"] is False
+        assert "18" in body["message"]
+
+    def test_respuesta_no_incluye_contrasena(self, monkeypatch, sin_usuarios, sin_disco):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post(self.URL, json={
+            "nombre": "Carlos Ruiz",
+            "contrasena": "segura1",
+            "fecha_nacimiento": "01/01/1990"
+        })
+        assert "contrasena" not in r.json().get("data", {})
 
 
-def test_multiplicador_2_funciona_correctamente(usuarios_db_con_usuario):
-    """Verifica que el multiplicador 2 funciona correctamente"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    # Especificar multiplicador 2 explícitamente
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "dados", gano=True, multiplicador=2)
-    
-    # 100 - 10 + (10 * 2) = 110
-    assert usuarios_db["1234"]["fichas"] == 110
+# ══════════════════════════════════════════════════════════════
+# 6. GET /api/usuarios  —  listar
+# ══════════════════════════════════════════════════════════════
+
+class TestListarUsuarios:
+
+    URL = "/api/usuarios"
+
+    def test_lista_vacia(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.get(self.URL)
+        body = r.json()
+        assert r.status_code == 200
+        assert body["success"] is True
+        assert body["count"] == 0
+        assert body["data"] == []
+
+    def test_lista_un_usuario(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get(self.URL)
+        body = r.json()
+        assert body["count"] == 1
+        assert body["data"][0]["id"] == "USR001"
+        assert body["data"][0]["nombre"] == "Juan Test"
+
+    def test_lista_no_expone_contrasena(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get(self.URL)
+        for usuario in r.json()["data"]:
+            assert "contrasena" not in usuario
+
+    def test_lista_varios_usuarios(self, monkeypatch):
+        db = {
+            "USR001": {**USUARIO_REAL},
+            "USR002": {**USUARIO_REAL, "nombre": "Sofía"},
+            "USR003": {**USUARIO_REAL, "nombre": "Pedro"},
+        }
+        usar_db(monkeypatch, db)
+        r = client.get(self.URL)
+        assert r.json()["count"] == 3
 
 
-def test_apuesta_minima():
-    """Verifica conceptualmente que las apuestas deben tener un mínimo"""
-    # Apuestas válidas (mayores que 0)
-    apuesta_1 = 1
-    apuesta_5 = 5
-    apuesta_10 = 10
-    
-    assert apuesta_1 > 0
-    assert apuesta_5 > 0
-    assert apuesta_10 > 0
-    
-    # Apuesta mínima conceptual debería ser al menos 1
-    apuesta_minima_valida = 1
-    assert apuesta_minima_valida >= 1
+# ══════════════════════════════════════════════════════════════
+# 7. GET /api/usuarios/{user_id}/saldo
+# ══════════════════════════════════════════════════════════════
+
+class TestSaldo:
+
+    def test_saldo_correcto(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get("/api/usuarios/USR001/saldo", params={"contrasena": "pass123"})
+        body = r.json()
+        assert body["success"] is True
+        assert body["data"]["fichas"] == 500
+        assert body["data"]["nombre"] == "Juan Test"
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.get("/api/usuarios/USR001/saldo", params={"contrasena": "pass123"})
+        assert r.json()["success"] is False
+        assert "no encontrado" in r.json()["message"].lower()
+
+    def test_contrasena_incorrecta(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get("/api/usuarios/USR001/saldo", params={"contrasena": "MALA"})
+        body = r.json()
+        assert body["success"] is False
+        assert "contraseña" in body["message"].lower()
+
+    def test_respuesta_no_expone_contrasena(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get("/api/usuarios/USR001/saldo", params={"contrasena": "pass123"})
+        assert "contrasena" not in r.json().get("data", {})
 
 
-def test_rechaza_fichas_insuficiente():
-    """
-    Verifica conceptualmente que no se debe apostar más de lo que se tiene
-    NOTA: gestionar_apuesta() NO valida esto, debe validarse ANTES
-    """
-    usuario = Usuario("TestUser", "pass123", "01/01/2000", id_usuario="1234", fichas=10)
-    usuarios_db = {"1234": usuario.to_dict()}
-    
-    fichas_disponibles = usuarios_db["1234"]["fichas"]
-    monto_apuesta = 50  # Más de lo que tiene
-    
-    # ESTO ES CONCEPTUAL - tu código actual NO valida esto
-    assert monto_apuesta > fichas_disponibles, "La apuesta es mayor que las fichas disponibles"
+# ══════════════════════════════════════════════════════════════
+# 8. GET /api/usuarios/{user_id}/info
+# ══════════════════════════════════════════════════════════════
+
+class TestInfoCompleta:
+
+    def test_info_correcta(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get("/api/usuarios/USR001/info", params={"contrasena": "pass123"})
+        body = r.json()
+        assert body["success"] is True
+        for campo in ("fichas", "fecha_nacimiento", "fecha_registro", "stats"):
+            assert campo in body["data"]
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.get("/api/usuarios/USR001/info", params={"contrasena": "pass123"})
+        assert r.json()["success"] is False
+
+    def test_contrasena_incorrecta(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get("/api/usuarios/USR001/info", params={"contrasena": "MALA"})
+        body = r.json()
+        assert body["success"] is False
+        assert "contraseña" in body["message"].lower()
+
+    def test_respuesta_no_expone_contrasena(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.get("/api/usuarios/USR001/info", params={"contrasena": "pass123"})
+        assert "contrasena" not in r.json().get("data", {})
 
 
-def test_apuesta_en_diferentes_juegos(usuarios_db_con_usuario):
-    """Verifica que se pueden hacer apuestas en diferentes juegos"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    juegos_disponibles = ["dados", "ruleta", "tragamonedas", "carreras"]
-    
-    for juego in juegos_disponibles:
-        usuarios_db = gestionar_apuesta(usuarios_db, "1234", 5, juego, gano=True, multiplicador=2)
-    
-    # Verificar que las fichas aumentaron correctamente
-    # 100 + 4 veces (5 * (2-1)) = 100 + 20 = 120
-    assert usuarios_db["1234"]["fichas"] == 120
+# ══════════════════════════════════════════════════════════════
+# 9. POST /api/banco/agregar-fichas
+# ══════════════════════════════════════════════════════════════
+
+class TestAgregarFichas:
+
+    URL = "/api/banco/agregar-fichas"
+
+    def payload(self, cantidad=200, user_id="USR001", contrasena="pass123"):
+        return {"user_id": user_id, "contrasena": contrasena, "cantidad": cantidad}
+
+    def test_agregar_exitoso(self, monkeypatch, un_usuario, sin_disco):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post(self.URL, json=self.payload(200))
+        body = r.json()
+        assert body["success"] is True
+        assert body["data"]["fichas_antes"]     == 500
+        assert body["data"]["fichas_agregadas"] == 200
+        assert body["data"]["fichas_despues"]   == 700
+
+    def test_usuario_no_existe(self, monkeypatch, sin_usuarios):
+        usar_db(monkeypatch, sin_usuarios)
+        r = client.post(self.URL, json=self.payload(100, user_id="NOEXISTE"))
+        assert r.json()["success"] is False
+        assert "no encontrado" in r.json()["message"].lower()
+
+    def test_contrasena_incorrecta(self, monkeypatch, un_usuario):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post(self.URL, json=self.payload(100, contrasena="MALA"))
+        body = r.json()
+        assert body["success"] is False
+        assert "contraseña" in body["message"].lower()
+
+    @pytest.mark.parametrize("cantidad", [0, -1, -500])
+    def test_cantidad_no_positiva(self, monkeypatch, un_usuario, cantidad):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post(self.URL, json=self.payload(cantidad))
+        assert r.json()["success"] is False
+        assert "mayor a 0" in r.json()["message"]
+
+    def test_saldo_final_correcto(self, monkeypatch, sin_disco):
+        db = {"USR001": {**USUARIO_REAL, "fichas": 300}}
+        usar_db(monkeypatch, db)
+        r = client.post(self.URL, json=self.payload(150))
+        assert r.json()["data"]["fichas_despues"] == 450
+
+    def test_respuesta_incluye_nombre(self, monkeypatch, un_usuario, sin_disco):
+        usar_db(monkeypatch, un_usuario)
+        r = client.post(self.URL, json=self.payload(50))
+        assert r.json()["data"]["nombre"] == "Juan Test"
 
 
-def test_apuesta_con_monto_decimal(usuarios_db_con_usuario):
-    """Verifica que se pueden hacer apuestas con montos decimales"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_antes = usuarios_db["1234"]["fichas"]
-    monto = 10.5
-    multiplicador = 2
-    
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", monto, "dados", gano=True, multiplicador=multiplicador)
-    
-    fichas_despues = usuarios_db["1234"]["fichas"]
-    ganancia_neta = monto * (multiplicador - 1)
-    
-    # 100 - 10.5 + (10.5 * 2) = 110.5
-    assert fichas_despues == fichas_antes + ganancia_neta
 
 
-def test_multiples_apuestas_seguidas(usuarios_db_con_usuario):
-    """Verifica que se pueden hacer múltiples apuestas seguidas"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    # Hacer 10 apuestas ganando cada una
-    # Cada apuesta: -1 + (1*2) = +1 neto
-    for i in range(10):
-        usuarios_db = gestionar_apuesta(usuarios_db, "1234", 1, "dados", gano=True, multiplicador=2)
-    
-    # Fichas finales: 100 + (10 * 1) = 110
-    assert usuarios_db["1234"]["fichas"] == 110
 
 
-def test_apuesta_varios_usuarios(usuarios_db_varios_usuarios):
-    """Verifica que múltiples usuarios pueden apostar independientemente"""
-    usuarios_db = usuarios_db_varios_usuarios
-    
-    # Usuario 1 apuesta y gana: 1000 - 100 + (100 * 2) = 1100
-    usuarios_db = gestionar_apuesta(usuarios_db, "1111", 100, "dados", gano=True, multiplicador=2)
-    assert usuarios_db["1111"]["fichas"] == 1100
-    
-    # Usuario 2 apuesta y pierde: 100 - 50 = 50
-    usuarios_db = gestionar_apuesta(usuarios_db, "2222", 50, "ruleta", gano=False, multiplicador=2)
-    assert usuarios_db["2222"]["fichas"] == 50
-    
-    # Usuario 3 apuesta y gana: 10 - 5 + (5 * 3) = 20
-    usuarios_db = gestionar_apuesta(usuarios_db, "3333", 5, "tragamonedas", gano=True, multiplicador=3)
-    assert usuarios_db["3333"]["fichas"] == 20
 
 
-def test_apuesta_cero_no_cambia_fichas(usuarios_db_con_usuario):
-    """Verifica comportamiento con apuesta de 0 (aunque no debería permitirse)"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_antes = usuarios_db["1234"]["fichas"]
-    
-    # Apuesta de 0: 100 - 0 + (0 * 2) = 100
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 0, "dados", gano=True, multiplicador=2)
-    
-    fichas_despues = usuarios_db["1234"]["fichas"]
-    
-    assert fichas_despues == fichas_antes
 
 
-def test_multiplicador_1_es_empate(usuarios_db_con_usuario):
-    """Verifica que multiplicador 1 devuelve la misma cantidad (empate)"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_antes = usuarios_db["1234"]["fichas"]
-    
-    # Ganar con multiplicador 1: 100 - 20 + (20 * 1) = 100
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 20, "dados", gano=True, multiplicador=1)
-    
-    fichas_despues = usuarios_db["1234"]["fichas"]
-    
-    # No hay ganancia neta con multiplicador 1
-    assert fichas_despues == fichas_antes
-
-
-def test_racha_ganadora(usuarios_db_con_usuario):
-    """Verifica acumulación de fichas en racha ganadora"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_iniciales = 100
-    apuesta = 10
-    multiplicador = 2
-    rachas = 5
-    
-    for _ in range(rachas):
-        usuarios_db = gestionar_apuesta(usuarios_db, "1234", apuesta, "dados", gano=True, multiplicador=multiplicador)
-    
-    # Cada ganancia neta: 10 * (2-1) = 10
-    # Total: 100 + (5 * 10) = 150
-    assert usuarios_db["1234"]["fichas"] == fichas_iniciales + (rachas * apuesta * (multiplicador - 1))
-
-
-def test_racha_perdedora_afecta_fichas(usuarios_db_con_usuario):
-    """Verifica que perder varias veces seguidas disminuye las fichas"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas_iniciales = usuarios_db["1234"]["fichas"]  # 100
-    apuesta = 5
-    rachas = 10
-    
-    # Perder 10 veces
-    for _ in range(10):
-        usuarios_db = gestionar_apuesta(usuarios_db, "1234", apuesta, "ruleta", gano=False, multiplicador=2)
-    
-    # Las fichas disminuyen: 100 - (10 * 5) = 50
-    assert usuarios_db["1234"]["fichas"] == fichas_iniciales - (rachas * apuesta)
-
-
-def test_apuesta_grande_con_multiplicador_alto(usuarios_db_varios_usuarios):
-    """Verifica apuestas grandes con multiplicadores altos"""
-    usuarios_db = usuarios_db_varios_usuarios
-    
-    # Usuario rico apuesta mucho: 1000 - 500 + (500 * 10) = 5500
-    usuarios_db = gestionar_apuesta(usuarios_db, "1111", 500, "carreras", gano=True, multiplicador=10)
-    
-    assert usuarios_db["1111"]["fichas"] == 5500
-
-
-def test_alternancia_ganar_perder(usuarios_db_con_usuario):
-    """Verifica alternancia entre ganar y perder"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    fichas = 100
-    
-    # Ganar: 100 - 10 + (10*2) = 110
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "dados", gano=True, multiplicador=2)
-    fichas = 110
-    assert usuarios_db["1234"]["fichas"] == fichas
-    
-    # Perder: 110 - 10 = 100
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "dados", gano=False, multiplicador=2)
-    fichas = 100
-    assert usuarios_db["1234"]["fichas"] == fichas
-    
-    # Ganar: 100 - 10 + (10*3) = 120
-    usuarios_db = gestionar_apuesta(usuarios_db, "1234", 10, "dados", gano=True, multiplicador=3)
-    fichas = 120
-    assert usuarios_db["1234"]["fichas"] == fichas
-
-
-def test_usuario_no_existente_da_error():
-    """Verifica que intentar apostar con usuario inexistente da error"""
-    usuarios_db = {}
-    
-    # Esto debería dar KeyError porque el usuario no existe
-    with pytest.raises(KeyError):
-        gestionar_apuesta(usuarios_db, "9999", 10, "dados", gano=True, multiplicador=2)
-
-
-def test_todos_los_juegos_se_pueden_jugar(usuarios_db_con_usuario):
-    """Verifica que todos los juegos del sistema se pueden jugar"""
-    usuarios_db = usuarios_db_con_usuario
-    
-    juegos = ["dados", "ruleta", "tragamonedas", "carreras"]
-    
-    fichas_iniciales = usuarios_db["1234"]["fichas"]
-    
-    for juego in juegos:
-        usuarios_db = gestionar_apuesta(usuarios_db, "1234", 5, juego, gano=True, multiplicador=2)
-    
-    # Verificar que las fichas aumentaron: 100 + 4*(5*(2-1)) = 120
-    assert usuarios_db["1234"]["fichas"] == fichas_iniciales + 20

@@ -178,5 +178,60 @@
                 "fichas_despues": 105
             }
         ]
+    },
+    "USR001": {
+        "usuario": "Juan Test",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 10:49:47",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 50,
+                "fichas_antes": 500,
+                "fichas_despues": 550
+            },
+            {
+                "fecha": "19/02/2026 10:49:47",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 150,
+                "fichas_antes": 300,
+                "fichas_despues": 450
+            },
+            {
+                "fecha": "19/02/2026 10:49:47",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 200,
+                "fichas_antes": 500,
+                "fichas_despues": 700
+            },
+            {
+                "fecha": "19/02/2026 10:49:46",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 50,
+                "fichas_antes": 500,
+                "fichas_despues": 550
+            },
+            {
+                "fecha": "19/02/2026 10:49:46",
+                "juego": "banco",
+                "apuesta": 0,
+                "detalles": "Retiro de fondos bancarios",
+                "resultado": "gano",
+                "ganancia": 150,
+                "fichas_antes": 300,
+                "fichas_despues": 450
+            }
+        ]
     }
 }
