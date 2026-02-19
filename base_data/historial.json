@@ -183,7 +183,7 @@
         "usuario": "Juan Test",
         "partidas": [
             {
-                "fecha": "19/02/2026 10:49:47",
+                "fecha": "19/02/2026 13:28:30",
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -193,7 +193,7 @@
                 "fichas_despues": 550
             },
             {
-                "fecha": "19/02/2026 10:49:47",
+                "fecha": "19/02/2026 13:28:30",
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -203,7 +203,7 @@
                 "fichas_despues": 450
             },
             {
-                "fecha": "19/02/2026 10:49:47",
+                "fecha": "19/02/2026 13:28:30",
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -213,7 +213,7 @@
                 "fichas_despues": 700
             },
             {
-                "fecha": "19/02/2026 10:49:46",
+                "fecha": "19/02/2026 13:28:29",
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -223,7 +223,7 @@
                 "fichas_despues": 550
             },
             {
-                "fecha": "19/02/2026 10:49:46",
+                "fecha": "19/02/2026 13:28:29",
                 "juego": "banco",
                 "apuesta": 0,
                 "detalles": "Retiro de fondos bancarios",
@@ -231,6 +231,76 @@
                 "ganancia": 150,
                 "fichas_antes": 300,
                 "fichas_despues": 450
+            }
+        ]
+    },
+    "6767": {
+        "usuario": "Kazuma Kiryu",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 13:28:29",
+                "juego": "carreras",
+                "apuesta": 100,
+                "detalles": "Apostó por Secretariat. Ganador: Tamamo Cross",
+                "resultado": "perdio",
+                "ganancia": -100,
+                "fichas_antes": 1000,
+                "fichas_despues": 900
+            },
+            {
+                "fecha": "19/02/2026 10:52:24",
+                "juego": "carreras",
+                "apuesta": 100,
+                "detalles": "Apostó por Secretariat. Ganador: Secretariat",
+                "resultado": "gano",
+                "ganancia": 100,
+                "fichas_antes": 1000,
+                "fichas_despues": 1100
+            }
+        ]
+    },
+    "6969": {
+        "usuario": "Kaiji Itou",
+        "partidas": [
+            {
+                "fecha": "19/02/2026 13:28:30",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 13:28:30",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
+            },
+            {
+                "fecha": "19/02/2026 10:52:24",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
+                "resultado": "perdio",
+                "ganancia": -10,
+                "fichas_antes": 100,
+                "fichas_despues": 90
+            },
+            {
+                "fecha": "19/02/2026 10:52:24",
+                "juego": "tragamonedas",
+                "apuesta": 10,
+                "detalles": "¡¡ENHORABUENA HAS GANADO!! Tres 7 seguidos.",
+                "resultado": "gano",
+                "ganancia": 890,
+                "fichas_antes": 100,
+                "fichas_despues": 990
             }
         ]
     }

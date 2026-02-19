@@ -10,6 +10,8 @@ from juegos.dados_api import JuegoDadosAPI
 from juegos.carreras_api import JuegoCarrerasAPI
 from juegos.ruleta_api import JuegoRuletaAPI
 from juegos.traga_monedas_api import JuegoTragaMonedasAPI
+import json
+import os
 
 app = FastAPI(title="Casino CancinHub API", description="API profesional para el Casino Virtual")
 
