@@ -1,136 +1,51 @@
 {
-    "6055": {
-        "usuario": "Rompe-Aire",
+    "9512": {
+        "usuario": "manolito",
         "partidas": [
             {
-                "fecha": "16/02/2026 13:42:08",
-                "juego": "dados",
-                "apuesta": 4,
-                "detalles": "Sin detalles",
+                "fecha": "20/02/2026 11:35:50",
+                "juego": "tragamonedas",
+                "apuesta": 5,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
                 "resultado": "perdio",
-                "ganancia": -4,
-                "fichas_antes": 321,
-                "fichas_despues": 317
+                "ganancia": -5,
+                "fichas_antes": 95,
+                "fichas_despues": 90
             },
             {
-                "fecha": "16/02/2026 13:42:02",
-                "juego": "dados",
-                "apuesta": 4,
-                "detalles": "Sin detalles",
+                "fecha": "20/02/2026 11:35:49",
+                "juego": "tragamonedas",
+                "apuesta": 5,
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
                 "resultado": "perdio",
-                "ganancia": -4,
-                "fichas_antes": 325,
-                "fichas_despues": 321
-            },
+                "ganancia": -5,
+                "fichas_antes": 100,
+                "fichas_despues": 95
+            }
+        ]
+    },
+    "9885": {
+        "usuario": "ManolitoPeter",
+        "partidas": [
             {
-                "fecha": "16/02/2026 13:41:56",
-                "juego": "ruleta",
-                "apuesta": 3,
-                "detalles": "Sin detalles",
-                "resultado": "perdio",
-                "ganancia": -3,
-                "fichas_antes": 328,
-                "fichas_despues": 325
-            },
-            {
-                "fecha": "16/02/2026 13:41:44",
-                "juego": "carreras",
+                "fecha": "20/02/2026 12:01:52",
+                "juego": "tragamonedas",
                 "apuesta": 2,
-                "detalles": "Aposto por Tamamo Cross. Ganador: Secretariat",
+                "detalles": "¡¡HAS PERDIDO LA MANUTENCION DE TUS HIJOS!!",
                 "resultado": "perdio",
                 "ganancia": -2,
-                "fichas_antes": 330,
-                "fichas_despues": 328
+                "fichas_antes": 112,
+                "fichas_despues": 110
             },
             {
-                "fecha": "16/02/2026 13:41:29",
+                "fecha": "20/02/2026 12:01:24",
                 "juego": "dados",
-                "apuesta": 1,
-                "detalles": "Jugador: 2 vs Banca: 5",
-                "resultado": "perdio",
-                "ganancia": -1,
-                "fichas_antes": 331,
-                "fichas_despues": 330
-            }
-        ]
-    },
-    "1245": {
-        "usuario": "jacobo",
-        "partidas": [
-            {
-                "fecha": "11/02/2026 14:02:08",
-                "juego": "dados",
-                "apuesta": 10,
-                "detalles": "Sin detalles",
+                "apuesta": 12,
+                "detalles": "Jugador: 5 vs Banca: 2",
                 "resultado": "gano",
-                "ganancia": 290,
-                "fichas_antes": 1003890,
-                "fichas_despues": 1004180
-            },
-            {
-                "fecha": "11/02/2026 14:02:05",
-                "juego": "dados",
-                "apuesta": 10,
-                "detalles": "Sin detalles",
-                "resultado": "perdio",
-                "ganancia": 10,
-                "fichas_antes": 1003900,
-                "fichas_despues": 1003890
-            },
-            {
-                "fecha": "11/02/2026 14:02:03",
-                "juego": "dados",
-                "apuesta": 10,
-                "detalles": "Sin detalles",
-                "resultado": "perdio",
-                "ganancia": 10,
-                "fichas_antes": 1003910,
-                "fichas_despues": 1003900
-            },
-            {
-                "fecha": "11/02/2026 14:02:02",
-                "juego": "dados",
-                "apuesta": 10,
-                "detalles": "Sin detalles",
-                "resultado": "perdio",
-                "ganancia": 10,
-                "fichas_antes": 1003920,
-                "fichas_despues": 1003910
-            },
-            {
-                "fecha": "11/02/2026 14:02:00",
-                "juego": "dados",
-                "apuesta": 10,
-                "detalles": "Sin detalles",
-                "resultado": "perdio",
-                "ganancia": 10,
-                "fichas_antes": 1003930,
-                "fichas_despues": 1003920
-            }
-        ]
-    },
-    "3424": {
-        "usuario": "Janh",
-        "partidas": [
-            {
-                "fecha": "16/02/2026 01:29:11",
-                "juego": "banco",
-                "apuesta": 0,
-                "detalles": "Retiro de fondos bancarios",
-                "resultado": "gano",
-                "ganancia": 100,
-                "fichas_antes": 200,
-                "fichas_despues": 300
-            },
-            {
-                "fecha": "16/02/2026 01:12:38",
-                "juego": "banco",
-                "apuesta": 0,
-                "detalles": "Retiro de fondos bancarios",
-                "resultado": "gano",
-                "ganancia": 100,
+                "ganancia": 12,
                 "fichas_antes": 100,
-                "fichas_despues": 200
+                "fichas_despues": 112
             }
         ]
     }

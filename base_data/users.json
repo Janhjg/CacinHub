@@ -1,93 +1,38 @@
 {
-    "6055": {
-        "nombre": "Rompe-Aire",
-        "contrasena": "tecno",
+    "9512": {
+        "nombre": "manolito",
+        "contrasena": "123456789",
         "fecha_nacimiento": "19/10/1999",
-        "fichas": 317,
-        "fecha_registro": "05/02/2026 11:47:05",
+        "fichas": 90,
+        "fecha_registro": "20/02/2026 11:34:10",
         "stats": {
-            "partidas_totales": 23,
-            "dados": 20,
-            "ruleta": 1,
-            "tragamonedas": 0,
-            "carreras": 2
+            "partidas_totales": 2,
+            "dados": 0,
+            "ruleta": 0,
+            "tragamonedas": 2,
+            "carreras": 0
         }
     },
-    "8865": {
-        "nombre": "Tanana",
-        "contrasena": "1234",
-        "fichas": 0,
-        "fecha_registro": "Wed Feb  4 13:14:05 2026",
+    "9885": {
+        "nombre": "ManolitoPeter",
+        "contrasena": "123456789",
+        "fecha_nacimiento": "19/10/1999",
+        "fichas": 105,
+        "fecha_registro": "20/02/2026 11:59:43",
         "stats": {
             "partidas_totales": 2,
             "dados": 1,
             "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 1
-        }
-    },
-    "1245": {
-        "nombre": "jacobo",
-        "contrasena": "1234",
-        "fecha_nacimiento": "1/2/2000",
-        "fichas": 1004180,
-        "fecha_registro": "06/02/2026 11:47:41",
-        "stats": {
-            "partidas_totales": 2,
-            "dados": 2,
-            "ruleta": 0,
-            "tragamonedas": 0,
+            "tragamonedas": 1,
             "carreras": 0
         }
     },
-    "9363": {
-        "nombre": "prueba",
-        "contrasena": "1234",
-        "fecha_nacimiento": "24/02/1999",
+    "2689": {
+        "nombre": "ManolitoPeter",
+        "contrasena": "123456789",
+        "fecha_nacimiento": "19/10/1999",
         "fichas": 100,
-        "fecha_registro": "13/02/2026 02:16:49",
-        "stats": {
-            "partidas_totales": 0,
-            "dados": 0,
-            "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 0
-        }
-    },
-    "8539": {
-        "nombre": "Manolin",
-        "contrasena": "123456",
-        "fecha_nacimiento": "24/10/1900",
-        "fichas": 100,
-        "fecha_registro": "13/02/2026 11:01:59",
-        "stats": {
-            "partidas_totales": 0,
-            "dados": 0,
-            "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 0
-        }
-    },
-    "2499": {
-        "nombre": "Manolin",
-        "contrasena": "123456",
-        "fecha_nacimiento": "24/10/2000",
-        "fichas": 100,
-        "fecha_registro": "13/02/2026 11:02:16",
-        "stats": {
-            "partidas_totales": 0,
-            "dados": 0,
-            "ruleta": 0,
-            "tragamonedas": 0,
-            "carreras": 0
-        }
-    },
-    "3424": {
-        "nombre": "Janh",
-        "contrasena": "1234",
-        "fecha_nacimiento": "24/1/2000",
-        "fichas": 300,
-        "fecha_registro": "16/02/2026 01:12:07",
+        "fecha_registro": "20/02/2026 11:59:46",
         "stats": {
             "partidas_totales": 0,
             "dados": 0,

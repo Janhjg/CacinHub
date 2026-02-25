@@ -2,8 +2,8 @@ import random
 from juegos.base_juegos import *
 
 class JuegoRuletaAPI(Juego):
-    def init(self, usuarios, uid, gestionar_apuesta, guardar_datos):
-        super().init("ruleta", usuarios, uid, gestionar_apuesta, guardar_datos)
+    def __init__(self, usuarios, uid, gestionar_apuesta, guardar_datos):
+        super().__init__("ruleta", usuarios, uid, gestionar_apuesta, guardar_datos)
         self.numeros = list(range(0, 37))
 
     def ejecutar_logica(self, apuesta, tipo_apuesta, numero_elegido=None):
